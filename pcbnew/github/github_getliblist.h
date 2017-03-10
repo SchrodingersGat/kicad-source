@@ -25,6 +25,7 @@
 #ifndef GITHUB_GETLIBLIST_H_
 #define GITHUB_GETLIBLIST_H_
 
+#include "github_url.h"
 
 /**
  * Class GITHUB_GETLIBLIST

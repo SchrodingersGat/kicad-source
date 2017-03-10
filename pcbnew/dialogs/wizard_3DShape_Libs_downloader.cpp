@@ -35,6 +35,7 @@
 #include <wx/wx.h>
 #include <wx/uri.h>
 #include <wx/dir.h>
+#include <wx/msgdlg.h>
 #include <wx/progdlg.h>
 #include <wx/config.h>
 
@@ -129,15 +130,42 @@ WIZARD_3DSHAPE_LIBS_DOWNLOADER::~WIZARD_3DSHAPE_LIBS_DOWNLOADER()
 }
 
 
+/**
+ * Function OnPageChanging
+ * UI call back triggered *before* a page is changed
+ */
+void WIZARD_3DSHAPE_LIBS_DOWNLOADER::OnPageChanging( wxWizardEvent& aEvent )
+{
+    auto page = GetCurrentPage();
+
+    if( page == m_welcomeDlg )
+    {
+        auto git_url = m_textCtrlGithubURL->GetValue();
+
+        // Before we move to the next screen, check the validity of the URL
+        GITHUB_URL url( git_url );
+
+        if( !url.IsValid() )
+        {
+            wxMessageBox( wxString::Format( "'%s' %s", git_url, _( "is not a valid GitHub URL" ) ),
+                          _( "GitHub URL error" ),
+                          wxICON_WARNING );
+
+            aEvent.Veto();
+        }
+    }
+}
 
 void WIZARD_3DSHAPE_LIBS_DOWNLOADER::OnPageChanged( wxWizardEvent& aEvent )
 {
     SetBitmap( KiBitmap( wizard_add_fplib_icon_xpm ) );
     enableNext( true );
 
-    if( GetCurrentPage() == m_githubListDlg )
+    auto page = GetCurrentPage();
+
+    if( page == m_githubListDlg )
         setupGithubList();
-    else if( GetCurrentPage() == m_reviewDlg )
+    else if( page == m_reviewDlg )
         setupReview();
 }
 

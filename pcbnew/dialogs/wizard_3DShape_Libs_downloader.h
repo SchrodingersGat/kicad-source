@@ -66,6 +66,7 @@ public:
     void OnSourceCheck( wxCommandEvent& aEvent );
     void OnCheckGithubList( wxCommandEvent& aEvent );
     void OnPageChanged( wxWizardEvent& aEvent ) override;
+    void OnPageChanging( wxWizardEvent& aEvent ) override;
     void OnSelectAll3Dlibs( wxCommandEvent& aEvent ) override;
     void OnUnselectAll3Dlibs( wxCommandEvent& aEvent ) override;
     void OnChangeSearch( wxCommandEvent& aEvent ) override;

@@ -26,6 +26,7 @@ include_directories( . )
 include_directories( ${CURL_INCLUDE_DIRS} )
 
 set( GITHUB_PLUGIN_SRCS
+    github_url.cpp
     github_plugin.cpp
     github_getliblist.cpp
     html_link_parser.cpp
