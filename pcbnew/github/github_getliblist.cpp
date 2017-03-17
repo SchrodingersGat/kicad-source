@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2015 Jean-Pierre Charras jp.charras at wanadoo.fr
  * Copyright (C) 2013 SoftPLC Corporation, Dick Hollenbeck <dick@softplc.com>
- * Copyright (C) 2015 KiCad Developers, see CHANGELOG.TXT for contributors.
+ * Copyright (C) 2017 KiCad Developers, see CHANGELOG.TXT for contributors.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -50,9 +50,11 @@
 #include <html_link_parser.h>
 
 
-GITHUB_GETLIBLIST::GITHUB_GETLIBLIST( const wxString& aRepoURL )
+GITHUB_GETLIBLIST::GITHUB_GETLIBLIST( const GITHUB_URL& aUrl )
 {
-    m_repoURL = aRepoURL;
+    m_url = aUrl;
+    m_repoURL = m_url.GetFullURL();
+
     m_libs_ext =  wxT( ".pretty" );
     strcpy( m_option_string, "application/json" );
 }
@@ -90,6 +92,65 @@ bool GITHUB_GETLIBLIST::Get3DshapesLibsList( wxArrayString* aList,
     return true;
 }
 
+bool GITHUB_GETLIBLIST::GetDirectoryListing( wxArrayString& aList, const wxArrayString& aFilters )
+{
+    wxString error;
+
+    // Grab the JSON data
+    bool success = getJsonData( error );
+
+    if( !success )
+    {
+        wxMessageBox( error, "JSON Get Failed" );
+        return false;
+    }
+    else
+    {
+        wxMessageBox( m_image, m_url.GetApiURL() );
+    }
+
+    const wxString urlPrefix = "https://";
+    std::string& json_image = GetBuffer();
+    wxString tmp;
+    const char sep = ',';
+
+    for( unsigned ii = 0; ii < json_image.size(); ii++ )
+    {
+        if( json_image[ii] == sep || ii == json_image.size() - 1 )
+        {
+            if( tmp.StartsWith( wxT( "\"name\"" ) ) )
+            {
+                #define QUOTE '\"'
+                // Remove useless quotes:
+                if( tmp[tmp.Length() - 1] == QUOTE )
+                    tmp.RemoveLast();
+
+                if( tmp.EndsWith( m_libs_ext ) )
+                {
+                    aList.Add( tmp.AfterLast( ':' ) );
+                    int idx = aList.GetCount() - 1;
+
+                    if( aList[idx][0] == QUOTE )
+                        aList[idx].Remove( 0, 1 );
+
+                    aList[idx].Prepend( urlPrefix );
+
+                    wxMessageBox( _( "Found: ") + aList[idx] );
+                }
+
+                //items_count_per_page++;
+            }
+
+            tmp.Clear();
+        }
+        else
+        {
+            tmp << json_image[ii];
+        }
+    }
+
+    return false;
+}
 
 bool GITHUB_GETLIBLIST::GetFootprintLibraryList( wxArrayString& aList )
 {
@@ -209,8 +270,43 @@ bool GITHUB_GETLIBLIST::repoURL2listURL( const wxString& aRepoURL,
 
     return false;
 }
+*/
 
+bool GITHUB_GETLIBLIST::getJsonData( wxString& aErrorMessage )
+{
+    KICAD_CURL_EASY kCurl;
 
+    std::string url;
+    url = m_url.GetApiURL().utf8_str();
+
+    wxLogDebug( wxT( "Attempting to download: " ) + url );
+
+    kCurl.SetURL( url );
+    kCurl.SetUserAgent( "http://kicad-pcb.org" );
+    kCurl.SetHeader( "Accept", "application/json" );
+    kCurl.SetFollowRedirects( true );
+
+    try
+    {
+        kCurl.Perform();
+        m_image = kCurl.GetBuffer();
+        return true;
+    }
+    catch( const IO_ERROR& ioe )
+    {
+        UTF8 fmt( _( "Error fetching JSON data from '%s'.\n Reason '%s'" ) );
+
+        std::string msg = StrPrintf( fmt.c_str(),
+                                     url.c_str(),
+                                     TO_UTF8( ioe.What() ) );
+
+        aErrorMessage = FROM_UTF8( msg.c_str() );
+
+        return false;
+    }
+}
+
+/*
 bool GITHUB_GETLIBLIST::remoteGetJSON( const std::string& aFullURLCommand, wxString* aMsgError )
 {
     KICAD_CURL_EASY kcurl;

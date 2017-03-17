@@ -36,6 +36,11 @@ WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE( wxWind
 	m_staticText8->Wrap( -1 );
 	bSizer19->Add( m_staticText8, 0, wxTOP|wxRIGHT|wxLEFT, 5 );
 	
+	wxArrayString m_urlChoiceChoices;
+	m_urlChoice = new wxChoice( m_wizPage1, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_urlChoiceChoices, 0 );
+	m_urlChoice->SetSelection( 0 );
+	bSizer19->Add( m_urlChoice, 0, wxALL|wxEXPAND, 5 );
+	
 	m_textCtrlGithubURL = new wxTextCtrl( m_wizPage1, wxID_ANY, _("http://github.com/KiCad"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_textCtrlGithubURL->SetMinSize( wxSize( 300,-1 ) );
 	
@@ -222,6 +227,7 @@ WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE( wxWind
 	this->Connect( wxID_ANY, wxEVT_WIZARD_FINISHED, wxWizardEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnWizardFinished ) );
 	this->Connect( wxID_ANY, wxEVT_WIZARD_PAGE_CHANGED, wxWizardEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnPageChanged ) );
 	this->Connect( wxID_ANY, wxEVT_WIZARD_PAGE_CHANGING, wxWizardEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnPageChanging ) );
+	m_urlChoice->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnUrlChoiceChanged ), NULL, this );
 	m_downloadDir->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnLocalFolderChange ), NULL, this );
 	m_btnBrowse->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnBrowseButtonClick ), NULL, this );
 	m_buttonDefault3DPath->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnDefault3DPathButtonClick ), NULL, this );
@@ -237,6 +243,7 @@ WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::~WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE()
 	this->Disconnect( wxID_ANY, wxEVT_WIZARD_FINISHED, wxWizardEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnWizardFinished ) );
 	this->Disconnect( wxID_ANY, wxEVT_WIZARD_PAGE_CHANGED, wxWizardEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnPageChanged ) );
 	this->Disconnect( wxID_ANY, wxEVT_WIZARD_PAGE_CHANGING, wxWizardEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnPageChanging ) );
+	m_urlChoice->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnUrlChoiceChanged ), NULL, this );
 	m_downloadDir->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnLocalFolderChange ), NULL, this );
 	m_btnBrowse->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnBrowseButtonClick ), NULL, this );
 	m_buttonDefault3DPath->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE::OnDefault3DPathButtonClick ), NULL, this );

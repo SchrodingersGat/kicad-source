@@ -48,6 +48,18 @@
 
 #include <../github/github_getliblist.h>
 
+// Enumeration for options available in the
+// drop-down URL selection menu
+enum GithubUrlOptions
+{
+    GITHUB_URL_IDX_CUSTOM,
+    GITHUB_URL_IDX_KICAD,
+    GITHUB_URL_IDX_LEGACY
+};
+
+const wxString GITHUB_KICAD_URL = "https://github.com/KiCad/packages3d";
+const wxString GITHUB_LEGACY_URL = "https://github.com/KiCad/kicad-library/modules/packages3d";
+
 // a key to store the default Kicad Github 3D libs URL
 #define KICAD_3DLIBS_URL_KEY wxT( "kicad_3Dlib_url" )
 #define KICAD_3DLIBS_LAST_DOWNLOAD_DIR wxT( "kicad_3Dlib_last_download_dir" )
@@ -82,11 +94,20 @@ WIZARD_3DSHAPE_LIBS_DOWNLOADER::WIZARD_3DSHAPE_LIBS_DOWNLOADER( wxWindow* aParen
     wxString githubUrl;
     cfg->Read( KICAD_3DLIBS_URL_KEY, &githubUrl );
 
+    // Add items to the URL choice
+    m_urlChoice->Append( _( "Custom GitHub URL" ) );
+    m_urlChoice->Append( _( "KiCad 3D packages URL" ) );
+    m_urlChoice->Append( _( "Legacy 3D packages URL" ) );
+
+    m_urlChoice->SetSelection( GITHUB_URL_IDX_CUSTOM );
+
     if( githubUrl.IsEmpty() )
-        githubUrl = DEFAULT_GITHUB_3DSHAPES_LIBS_URL;
+    {
+        // Default to the official repo
+        githubUrl = GITHUB_KICAD_URL;
+    }
 
     SetGithubURL( githubUrl );
-
 
     // Give the minimal size to the dialog, which allows displaying any page
     wxSize minsize;
@@ -140,7 +161,7 @@ void WIZARD_3DSHAPE_LIBS_DOWNLOADER::OnPageChanging( wxWizardEvent& aEvent )
 
     if( page == m_welcomeDlg )
     {
-        auto git_url = m_textCtrlGithubURL->GetValue();
+        auto git_url = GetGithubURL();
 
         // Before we move to the next screen, check the validity of the URL
         GITHUB_URL url( git_url );
@@ -164,9 +185,13 @@ void WIZARD_3DSHAPE_LIBS_DOWNLOADER::OnPageChanged( wxWizardEvent& aEvent )
     auto page = GetCurrentPage();
 
     if( page == m_githubListDlg )
+    {
         setupGithubList();
+    }
     else if( page == m_reviewDlg )
+    {
         setupReview();
+    }
 }
 
 
@@ -360,7 +385,7 @@ void WIZARD_3DSHAPE_LIBS_DOWNLOADER::getLibsListGithub( wxArrayString& aList )
     wxBeginBusyCursor();
 
     // Be sure there is no trailing '/' at the end of the repo name
-    wxString git_url = m_textCtrlGithubURL->GetValue();
+    wxString git_url = GetGithubURL();
 
     if( git_url.EndsWith( wxT( "/" ) ) )
     {
@@ -514,7 +539,6 @@ bool WIZARD_3DSHAPE_LIBS_DOWNLOADER::downloadOneLib( const wxString& aLibURL,
     return success;
 }
 
-
 void WIZARD_3DSHAPE_LIBS_DOWNLOADER::setupGithubList()
 {
     // Enable 'Next' only if there is at least one library selected
@@ -560,6 +584,37 @@ void WIZARD_3DSHAPE_LIBS_DOWNLOADER::updateGithubControls()
 void WIZARD_3DSHAPE_LIBS_DOWNLOADER::OnLocalFolderChange( wxCommandEvent& event )
 {
     updateGithubControls();
+}
+
+void WIZARD_3DSHAPE_LIBS_DOWNLOADER::OnUrlChoiceChanged( wxCommandEvent& event )
+{
+    bool enable = false;
+
+    switch( m_urlChoice->GetCurrentSelection() )
+    {
+    case GITHUB_URL_IDX_CUSTOM:
+        enable = true;
+        break;
+    default:
+        enable = false;
+        break;
+    }
+
+    m_textCtrlGithubURL->Enable( enable );
+}
+
+wxString WIZARD_3DSHAPE_LIBS_DOWNLOADER::GetGithubURL() const
+{
+    switch( m_urlChoice->GetCurrentSelection() )
+    {
+    case GITHUB_URL_IDX_CUSTOM:
+    default:
+        return m_textCtrlGithubURL->GetValue();
+    case GITHUB_URL_IDX_KICAD:
+        return GITHUB_KICAD_URL;
+    case GITHUB_URL_IDX_LEGACY:
+        return GITHUB_LEGACY_URL;
+    }
 }
 
 

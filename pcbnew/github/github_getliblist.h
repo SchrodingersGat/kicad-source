@@ -2,7 +2,7 @@
  * This program source code file is part of KiCad, a free EDA CAD application.
  *
  * Copyright (C) 2015 Jean-Pierre Charras jp.charras at wanadoo.fr
- * Copyright (C) 2015 KiCad Developers, see CHANGELOG.TXT for contributors.
+ * Copyright (C) 2017 KiCad Developers, see CHANGELOG.TXT for contributors.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -50,6 +50,8 @@ class GITHUB_GETLIBLIST
 public:
     // -----<API>----------------------------------------------------------
 
+    bool GetDirectoryListing( wxArrayString& aList, const wxArrayString& aFilters );
+
     /**
      * Fills aList by the name of footprint libraries found on the github repo
      */
@@ -83,10 +85,12 @@ public:
 
     // -----</API>---------------------------------------------------------
 
-    GITHUB_GETLIBLIST( const wxString& aRepoURL );
+    GITHUB_GETLIBLIST( const GITHUB_URL& aUrl );
     ~GITHUB_GETLIBLIST() {}
 
 protected:
+
+    GITHUB_URL m_url;
 
     /**
      * Function repoURL2listURL
@@ -100,8 +104,13 @@ protected:
      * @param  aPage is the page number, if there are more than one page in repo.
      * @return bool - true if @a aRepoULR was parseable, else false
      */
+
+    /*
     bool repoURL2listURL( const wxString& aRepoURL, std::string* aFullURLCommand,
             int aItemCountMax, int aPage = 1 );
+    */
+
+    bool getJsonData( wxString& aErrorMessage );
 
     /**
      * Function remoteGetJSON

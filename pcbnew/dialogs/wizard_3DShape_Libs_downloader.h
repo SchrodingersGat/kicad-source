@@ -47,10 +47,7 @@ public:
      * Function GetGithubURL
      * Returns the current Github repository URL set in the wizard.
      */
-    inline wxString GetGithubURL() const
-    {
-        return m_textCtrlGithubURL->GetValue();
-    }
+    wxString GetGithubURL() const;
 
     /**
      * Function SetGithubURL
@@ -76,6 +73,7 @@ public:
 	void OnDefault3DPathButtonClick( wxCommandEvent& event ) override;
 	void OnGridLibReviewSize( wxSizeEvent& event ) override;
     void OnLocalFolderChange( wxCommandEvent& event ) override;
+    void OnUrlChoiceChanged( wxCommandEvent& event ) override;
 
 protected:
     // Initialization of wizard pages

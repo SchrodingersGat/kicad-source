@@ -17,6 +17,7 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/choice.h>
 #include <wx/textctrl.h>
 #include <wx/sizer.h>
 #include <wx/button.h>
@@ -45,6 +46,7 @@ class WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE : public wxWizard
 	protected:
 		wxStaticText* m_staticTextWelcome;
 		wxStaticText* m_staticText8;
+		wxChoice* m_urlChoice;
 		wxTextCtrl* m_textCtrlGithubURL;
 		wxStaticText* m_staticText9;
 		wxTextCtrl* m_downloadDir;
@@ -68,6 +70,7 @@ class WIZARD_3DSHAPE_LIBS_DOWNLOADER_BASE : public wxWizard
 		virtual void OnWizardFinished( wxWizardEvent& event ) { event.Skip(); }
 		virtual void OnPageChanged( wxWizardEvent& event ) { event.Skip(); }
 		virtual void OnPageChanging( wxWizardEvent& event ) { event.Skip(); }
+		virtual void OnUrlChoiceChanged( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnLocalFolderChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBrowseButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnDefault3DPathButtonClick( wxCommandEvent& event ) { event.Skip(); }
