@@ -6,8 +6,8 @@ endif()
 include_directories( BEFORE ${INC_BEFORE} )
 include_directories(
     ./dialogs
-    ./widgets
     ./dialog_about
+    ./widgets
     ${CAIRO_INCLUDE_DIR}
     ${PIXMAN_INCLUDE_DIR}
     ${GLEW_INCLUDE_DIR}
@@ -16,9 +16,11 @@ include_directories(
     ../3d-viewer
     ../pcbnew
     ../polygon
+    ./preferences
+    ./preferences/dialogs
+    ./preferences/panels
     ${INC_AFTER}
     )
-
 
 if( NOT APPLE )     # windows and linux use openssl under curl
     find_package( OpenSSL REQUIRED )
@@ -140,6 +142,24 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Generating version string header"
     )
+	
+set( PREF_DIALOG_SRCS
+	preferences/dialogs/dialog_pref_base.cpp
+	preferences/dialogs/dialog_pref.cpp
+	preferences/dialogs/dialog_preferences_global.cpp
+	)
+	
+set( PREF_PANEL_SRCS
+	preferences/panels/panel_pref_base.cpp
+	preferences/panels/panel_pref_env_var_base.cpp
+	preferences/panels/panel_pref_env_var.cpp
+	)
+	
+set( PREFERENCE_SRCS
+	preferences/preference_editor.cpp
+	${PREF_DIALOG_SRCS}
+	${PREF_PANEL_SRCS}
+	)
 
 set( COMMON_ABOUT_DLG_SRCS
     dialog_about/AboutDialog_main.cpp
@@ -203,6 +223,7 @@ set( COMMON_PREVIEW_ITEMS_SRCS
 
 set( COMMON_SRCS
     ${LIB_KICAD_SRCS}
+    ${PREFERENCE_SRCS}
     ${COMMON_ABOUT_DLG_SRCS}
     ${COMMON_DLG_SRCS}
     ${COMMON_WIDGET_SRCS}
@@ -343,6 +364,7 @@ set( COMMON_SRCS
     geometry/shape_file_io.cpp
     geometry/convex_hull.cpp
     )
+    
 add_library( common STATIC ${COMMON_SRCS} )
 add_dependencies( common lib-dependencies )
 add_dependencies( common version_header )

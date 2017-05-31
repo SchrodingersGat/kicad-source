@@ -224,6 +224,12 @@ public:
 
     void PrintMsg( const wxString& text );
 
+    void OpenGlobalSettingsEditor( wxCommandEvent& event );
+
+    void OpenProjectSettingsEditor( wxCommandEvent& event );
+
+    void OpenLibrarySettingsEditor( wxCommandEvent& event );
+
     /**
      * Function LoadSettings
      * loads common frame parameters from a configuration file.

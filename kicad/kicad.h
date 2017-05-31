@@ -124,6 +124,10 @@ enum id_kicad_frm {
     ID_READ_ZIP_ARCHIVE,
     ID_INIT_WATCHED_PATHS,
 
+    ID_PREFERENCES_GLOBAL,
+    ID_PREFERENCES_PROJECT,
+    ID_PREFERENCES_LIBRARY,
+
     // Please, verify: the number of items in this list should be
     // less than ROOM_FOR_KICADMANAGER (see id.h)
     ID_KICADMANAGER_END_LIST

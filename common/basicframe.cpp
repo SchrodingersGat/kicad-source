@@ -44,6 +44,8 @@
 #include <wx/display.h>
 #include <wx/utils.h>
 
+#include "preferences/preference_editor.cpp"
+
 
 /// The default auto save interval is 10 minutes.
 #define DEFAULT_AUTO_SAVE_INTERVAL 600
@@ -526,6 +528,21 @@ void EDA_BASE_FRAME::GetKicadAbout( wxCommandEvent& event )
 {
     bool ShowAboutDialog(wxWindow * parent);
     ShowAboutDialog( this );
+}
+
+void EDA_BASE_FRAME::OpenGlobalSettingsEditor( wxCommandEvent& event )
+{
+    InvokeDialogPreferencesGlobal( this );
+}
+
+void EDA_BASE_FRAME::OpenProjectSettingsEditor( wxCommandEvent& event )
+{
+    printf("Project\n");
+}
+
+void EDA_BASE_FRAME::OpenLibrarySettingsEditor( wxCommandEvent& event )
+{
+    printf("Library\n");
 }
 
 

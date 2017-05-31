@@ -67,6 +67,10 @@ BEGIN_EVENT_TABLE( KICAD_MANAGER_FRAME, EDA_BASE_FRAME )
     EVT_MENU( ID_HELP_GET_INVOLVED, KICAD_MANAGER_FRAME::GetKicadContribute )
     EVT_MENU( wxID_ABOUT, KICAD_MANAGER_FRAME::GetKicadAbout )
 
+    EVT_MENU( ID_PREFERENCES_GLOBAL,  KICAD_MANAGER_FRAME::OpenGlobalSettingsEditor )
+    EVT_MENU( ID_PREFERENCES_PROJECT, KICAD_MANAGER_FRAME::OpenProjectSettingsEditor )
+    EVT_MENU( ID_PREFERENCES_LIBRARY, KICAD_MANAGER_FRAME::OpenLibrarySettingsEditor )
+
     // Range menu events
     EVT_MENU_RANGE( ID_LANGUAGE_CHOICE, ID_LANGUAGE_CHOICE_END, KICAD_MANAGER_FRAME::language_change )
 
@@ -367,6 +371,26 @@ void KICAD_MANAGER_FRAME::ReCreateMenuBar()
     // Icons options submenu
     preferencesMenu->AppendSeparator();
     AddMenuIconsOptions( preferencesMenu );
+
+    preferencesMenu->AppendSeparator();
+    AddMenuItem( preferencesMenu,
+                 ID_PREFERENCES_GLOBAL,
+                 _( "KiCAD &Preferences" ),
+                 _( "Configure global preferences" ),
+                 KiBitmap( datasheet_xpm ) ); //TODO - Fix icon!
+
+    AddMenuItem( preferencesMenu,
+                 ID_PREFERENCES_PROJECT,
+                 _( "Pro&ject settings" ),
+                 _( "Configure project setings" ),
+                 KiBitmap( datasheet_xpm ) ); //TODO - Fix icon!
+
+    AddMenuItem( preferencesMenu,
+                 ID_PREFERENCES_LIBRARY,
+                 _( "&Library manager" ),
+                 _( "Open library manager" ),
+                 KiBitmap( datasheet_xpm ) ); //TODO - Fix icon!
+
 
     // Menu Tools:
     wxMenu* toolsMenu = new wxMenu;
