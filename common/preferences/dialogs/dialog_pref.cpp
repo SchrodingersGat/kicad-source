@@ -152,6 +152,10 @@ void DIALOG_PREFERENCES::SetPreferencesPanel( int aItemId )
  */
 void DIALOG_PREFERENCES::SetPreferencesPanel( PANEL_PREF* aPanel )
 {
+    if( !aPanel )
+    {
+        return;
+    }
 
     // Hide the currently selected panel
     if( m_currentPanel )
@@ -168,6 +172,15 @@ void DIALOG_PREFERENCES::SetPreferencesPanel( PANEL_PREF* aPanel )
 
     // Ensure correct tree item is highlighted
     m_prefTree->SetFocusedItem( aPanel->PanelId );
+
+    m_prefBox->Layout();
+    m_prefBox->Fit( m_currentPanel );
+    m_prefBox->SetSizeHints( m_currentPanel );
+
+    GetSizer()->Layout();
+    //GetSizer()->Layout();
+    //GetSizer()->Fit( this );
+    //GetSizer()->SetSizeHints( this );
 }
 
 /**

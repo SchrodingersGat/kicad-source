@@ -22,37 +22,40 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
-#include <pgm_base.h>
+#include "panel_pref_env_var.h"
 
-#include "dialog_preferences_global.h"
-
-// Preference panels
-#include "panels/panel_pref_general.h"
-#include "panels/panel_pref_env_var.h"
-
-DIALOG_PREFERENCES_GLOBAL::DIALOG_PREFERENCES_GLOBAL( wxWindow* aParent ) : DIALOG_PREFERENCES( aParent )
+PANEL_PREF_ENV_VAR::PANEL_PREF_ENV_VAR( wxWindow* aParent, const ENV_VAR_MAP& aEnvVars ) : PANEL_PREF_ENV_VAR_BASE( aParent )
 {
-    InitializeTree();
+    // Copy environment variables across
+    m_envVarMap = aEnvVars;
 
-    SetPreferencesPanel( PREF_FIRST );
+    m_pathList->EnableAlternateRowColours( true );
+
+    PopulatePathList();
 }
 
-void DIALOG_PREFERENCES_GLOBAL::AddItems( wxTreeItemId& aRoot )
+PANEL_PREF_ENV_VAR::~PANEL_PREF_ENV_VAR()
 {
-    auto parent = m_preferencePanel;
 
-    printf( "Adding items\n");
+}
 
-    auto general = AddItem( aRoot,
-                            _( "General" ),
-                            PREF_GLOBAL_GENERAL,
-                            new PANEL_PREF_GENERAL( parent ) );
+void PANEL_PREF_ENV_VAR::PopulatePathList()
+{
+    m_pathList->ClearAll();
 
+    m_pathList->AppendColumn( _( "Name" ) );
+    m_pathList->AppendColumn( _( "Path" ) );
 
+    int row = 0;
 
-    AddItem( general,
-            _( "Paths" ),
-            PREF_ENV_VAR_EDITOR,
-            new PANEL_PREF_ENV_VAR( parent, Pgm().GetLocalEnvVariables() ) );
+    for( auto it = m_envVarMap.begin(); it != m_envVarMap.end(); ++it )
+    {
+        long index = m_pathList->InsertItem( row, it->first );
 
+        m_pathList->SetItem( index, 1, it->second.GetValue() );
+
+        printf( "%s\n", (const char*) it->first.mb_str() );
+
+        row++;
+    }
 }

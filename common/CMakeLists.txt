@@ -153,6 +153,8 @@ set( PREF_PANEL_SRCS
 	preferences/panels/panel_pref_base.cpp
 	preferences/panels/panel_pref_env_var_base.cpp
 	preferences/panels/panel_pref_env_var.cpp
+	preferences/panels/panel_pref_general_base.cpp
+	preferences/panels/panel_pref_general.cpp
 	)
 	
 set( PREFERENCE_SRCS

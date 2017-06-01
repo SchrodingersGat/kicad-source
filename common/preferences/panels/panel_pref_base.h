@@ -73,6 +73,10 @@ public:
     // wxTreeItem ID values associate a panel with a specific item in the tree
     wxTreeItemId ParentId;
     wxTreeItemId PanelId;
+
+    // Data transfer functions
+    virtual void TransferDataToPanel() {}
+    virtual void TransferDataFromPanel() {}
 };
 
 #endif /* PANEL_PREF_BASE_H_ */

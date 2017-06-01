@@ -22,37 +22,25 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
+#ifndef PANEL_PREF_ENV_VAR_H_
+#define PANEL_PREF_ENV_VAR_H_
+
 #include <pgm_base.h>
 
-#include "dialog_preferences_global.h"
+#include "panel_pref_env_var_base.h"
 
-// Preference panels
-#include "panels/panel_pref_general.h"
-#include "panels/panel_pref_env_var.h"
-
-DIALOG_PREFERENCES_GLOBAL::DIALOG_PREFERENCES_GLOBAL( wxWindow* aParent ) : DIALOG_PREFERENCES( aParent )
+class PANEL_PREF_ENV_VAR : public PANEL_PREF_ENV_VAR_BASE
 {
-    InitializeTree();
+public:
+    PANEL_PREF_ENV_VAR( wxWindow* aParent, const ENV_VAR_MAP& aEnvVars );
+    virtual ~PANEL_PREF_ENV_VAR();
 
-    SetPreferencesPanel( PREF_FIRST );
-}
+private:
+    ENV_VAR_MAP  m_envVarMap;
 
-void DIALOG_PREFERENCES_GLOBAL::AddItems( wxTreeItemId& aRoot )
-{
-    auto parent = m_preferencePanel;
-
-    printf( "Adding items\n");
-
-    auto general = AddItem( aRoot,
-                            _( "General" ),
-                            PREF_GLOBAL_GENERAL,
-                            new PANEL_PREF_GENERAL( parent ) );
+    void PopulatePathList();
+};
 
 
 
-    AddItem( general,
-            _( "Paths" ),
-            PREF_ENV_VAR_EDITOR,
-            new PANEL_PREF_ENV_VAR( parent, Pgm().GetLocalEnvVariables() ) );
-
-}
+#endif /* PANEL_PREF_ENV_VAR_H_ */
