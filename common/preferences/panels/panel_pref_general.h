@@ -32,6 +32,13 @@ class PANEL_PREF_GENERAL : public PANEL_PREF_GENERAL_BASE
 public:
     PANEL_PREF_GENERAL( wxWindow* aParent );
     virtual ~PANEL_PREF_GENERAL();
+
+    virtual void TransferDataToPanel() override;
+
+protected:
+    // UI events
+    virtual void OnSelectTextEditor( wxCommandEvent& event ) override;
+
 };
 
 

@@ -63,6 +63,12 @@ void DIALOG_PREFERENCES::InitializeTree()
 
     m_preferencePanel->SetSizer( m_panelSizer );
 
+    // Transfer data from each preference panel
+    for( auto panel : m_panels )
+    {
+        panel->TransferDataToPanel();
+    }
+
     Thaw();
     Update();
 
@@ -79,6 +85,12 @@ void DIALOG_PREFERENCES::InitializeTree()
 wxTreeItemId DIALOG_PREFERENCES::AddItem( wxTreeItemId aParent, wxString aTitle, int aId, PANEL_PREF* aPanel )
 {
     assert( aParent.IsOk() );
+
+    // Ensure item id not already added
+    for( auto panel : m_panels )
+    {
+        wxASSERT_MSG( panel->Id != aId, "Preference item added with non-unique ID" );
+    }
 
     m_panelSizer->Add( aPanel, 0, wxEXPAND | wxALL, 5 );
 

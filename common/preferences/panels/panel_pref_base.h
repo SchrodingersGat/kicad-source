@@ -41,7 +41,20 @@ enum PreferencePanelIds
 
     // Global preference panels
     PREF_GLOBAL_GENERAL = 100,
+
     PREF_ENV_VAR_EDITOR,
+
+    // Schematic options
+    PREF_SCHEMATIC_TOP,
+    PREF_SCHEMATIC_DISPLAY,
+    PREF_SCHEMATIC_EDITING,
+    PREF_SCHEMATIC_HOTKEYS,
+    PREF_SCHEMATIC_COLORS,
+    PREF_SCHEMATIC_LIBEDIT,
+    PREF_SCHEMATIC_DEFAULT_FIELDS,
+
+    // PCB options
+    PREF_PCB_TOP,
 };
 
 /**

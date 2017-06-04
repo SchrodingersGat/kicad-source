@@ -28,15 +28,18 @@ PANEL_PREF_ENV_VAR::PANEL_PREF_ENV_VAR( wxWindow* aParent, const ENV_VAR_MAP& aE
 {
     // Copy environment variables across
     m_envVarMap = aEnvVars;
-
-    m_pathList->EnableAlternateRowColours( true );
-
-    PopulatePathList();
 }
 
 PANEL_PREF_ENV_VAR::~PANEL_PREF_ENV_VAR()
 {
 
+}
+
+void PANEL_PREF_ENV_VAR::TransferDataToPanel()
+{
+    m_pathList->EnableAlternateRowColours( true );
+
+    PopulatePathList();
 }
 
 void PANEL_PREF_ENV_VAR::PopulatePathList()
@@ -53,8 +56,6 @@ void PANEL_PREF_ENV_VAR::PopulatePathList()
         long index = m_pathList->InsertItem( row, it->first );
 
         m_pathList->SetItem( index, 1, it->second.GetValue() );
-
-        printf( "%s\n", (const char*) it->first.mb_str() );
 
         row++;
     }

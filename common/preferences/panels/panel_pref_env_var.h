@@ -35,6 +35,8 @@ public:
     PANEL_PREF_ENV_VAR( wxWindow* aParent, const ENV_VAR_MAP& aEnvVars );
     virtual ~PANEL_PREF_ENV_VAR();
 
+    virtual void TransferDataToPanel() override;
+
 private:
     ENV_VAR_MAP  m_envVarMap;
 

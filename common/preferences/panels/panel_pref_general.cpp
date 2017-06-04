@@ -22,14 +22,77 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
+#include <pgm_base.h>
+
 #include "panel_pref_general.h"
+
+enum PdfViewerOptions
+{
+    PDF_VIEWER_DEFAULT = 0,
+    PDF_VIEWER_CUSTOM
+};
 
 PANEL_PREF_GENERAL::PANEL_PREF_GENERAL( wxWindow* aParent ) : PANEL_PREF_GENERAL_BASE( aParent )
 {
-
 }
+
 
 PANEL_PREF_GENERAL::~PANEL_PREF_GENERAL()
 {
 
+}
+
+void PANEL_PREF_GENERAL::TransferDataToPanel()
+{
+    // Add options for PDF viewer
+    m_pdfViewerChoice->Append( _( "System default" ) );
+    m_pdfViewerChoice->Append( _( "Custom viewer" ) );
+
+    auto& pgm = Pgm();
+
+    // Populate language options
+    auto langs = pgm.GetLanguages();
+
+    wxString label;
+
+    // Selection index
+    int idx = 0;
+
+    for( unsigned int i=0; i<langs.size(); i++ )
+    {
+        LANGUAGE_DESCR* lang = langs.at(i);
+
+        if( !lang )
+            continue;
+
+
+        if( lang->m_DoNotTranslate )
+        {
+            label = lang->m_Lang_Label;
+        }
+        else
+        {
+            label = wxGetTranslation( lang->m_Lang_Label );
+        }
+
+        // Add the pointer to the language itself as the clientData for the options
+        m_comboSelectLanguage->Append( label, KiBitmap( lang->m_Lang_Icon ), lang );
+
+        // Mark it as selected if appropriate
+        if( lang->m_WX_Lang_Identifier == pgm.GetLanguageId() )
+        {
+            m_comboSelectLanguage->SetSelection( idx );
+        }
+
+        idx++;
+    }
+
+    m_optShowIconsInMenus->SetValue( pgm.GetUseIconsInMenus() );
+}
+
+void PANEL_PREF_GENERAL::OnSelectTextEditor( wxCommandEvent& event )
+{
+    wxString defaultEditor;
+
+    auto te = Pgm().AskUserForPreferredEditor( defaultEditor );
 }

@@ -29,6 +29,8 @@
 // Preference panels
 #include "panels/panel_pref_general.h"
 #include "panels/panel_pref_env_var.h"
+#include "panels/panel_pref_libedit_base.h" //TODO - Subclass base
+#include "panels/panel_pref_schematic_base.h" //TODO - Subclass these
 
 DIALOG_PREFERENCES_GLOBAL::DIALOG_PREFERENCES_GLOBAL( wxWindow* aParent ) : DIALOG_PREFERENCES( aParent )
 {
@@ -41,18 +43,64 @@ void DIALOG_PREFERENCES_GLOBAL::AddItems( wxTreeItemId& aRoot )
 {
     auto parent = m_preferencePanel;
 
-    printf( "Adding items\n");
-
     auto general = AddItem( aRoot,
                             _( "General" ),
                             PREF_GLOBAL_GENERAL,
                             new PANEL_PREF_GENERAL( parent ) );
 
 
+    auto paths = AddItem( aRoot,
+                          _( "Paths" ),
+                          PREF_ENV_VAR_EDITOR,
+                          new PANEL_PREF_ENV_VAR( parent, Pgm().GetLocalEnvVariables() ) );
 
-    AddItem( general,
-            _( "Paths" ),
-            PREF_ENV_VAR_EDITOR,
-            new PANEL_PREF_ENV_VAR( parent, Pgm().GetLocalEnvVariables() ) );
 
+    /* Schematic editor preferences */
+    auto schem = AddItem( aRoot,
+                          _( "Schematic" ),
+                          PREF_SCHEMATIC_TOP,
+                          new PANEL_PREF( parent ) );
+
+    //TODO
+    AddItem( schem,
+            _( "Display" ),
+            PREF_SCHEMATIC_DISPLAY,
+            new PANEL_PREF_SCHEMATIC_DISPLAY_BASE( parent ) );
+
+    //TODO
+    AddItem( schem,
+            _( "Editing" ),
+            PREF_SCHEMATIC_EDITING,
+            new PANEL_PREF_SCHEMATIC_EDITING_BASE( parent ) );
+
+    //TODO
+    AddItem( schem,
+            _( "Hotkeys" ),
+            PREF_SCHEMATIC_HOTKEYS,
+            new PANEL_PREF_SCHEMATIC_CONTROLS_BASE( parent ) );
+
+    //TODO
+    AddItem( schem,
+            _( "Colors" ),
+            PREF_SCHEMATIC_COLORS,
+            new PANEL_PREF_SCHEMATIC_COLORS_BASE( parent ) );
+
+    //TODO
+    AddItem( schem,
+            _( "Library editor" ),
+            PREF_SCHEMATIC_LIBEDIT,
+            new PANEL_PREF_LIBEDIT_BASE( parent ) );
+
+    //TODO
+    AddItem( schem,
+            _( "Default fields" ),
+            PREF_SCHEMATIC_DEFAULT_FIELDS,
+            new PANEL_PREF_SCHEMATIC_DEFAULT_FIELDS( parent ) );
+
+
+    /* PCB editor preferences */
+    auto pcb = AddItem( aRoot,
+                        _( "PCB" ),
+                        PREF_PCB_TOP,
+                        new PANEL_PREF( parent ) );
 }
