@@ -224,17 +224,6 @@ PANEL_PREF_SCHEMATIC_CONTROLS_BASE::PANEL_PREF_SCHEMATIC_CONTROLS_BASE( wxWindow
 	wxBoxSizer* bSizer81;
 	bSizer81 = new wxBoxSizer( wxVERTICAL );
 	
-	wxFlexGridSizer* fgSizer31;
-	fgSizer31 = new wxFlexGridSizer( 0, 3, 0, 0 );
-	fgSizer31->AddGrowableCol( 0 );
-	fgSizer31->AddGrowableCol( 1 );
-	fgSizer31->AddGrowableCol( 2 );
-	fgSizer31->SetFlexibleDirection( wxBOTH );
-	fgSizer31->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	
-	bSizer81->Add( fgSizer31, 0, wxALL|wxEXPAND, 5 );
-	
 	m_controlsSizer = new wxBoxSizer( wxVERTICAL );
 	
 	wxBoxSizer* bSizer13;

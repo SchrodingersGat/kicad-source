@@ -51,6 +51,13 @@ public:
 
     void SetPreferencesPanel( int aItemId );
 
+    /**
+     * Function SavePreferences
+     * Called when the window is closed with the "OK" button
+     * Saves all preferences to file
+     */
+    void SavePreferences();
+
 protected:
     void InitializeTree();
 

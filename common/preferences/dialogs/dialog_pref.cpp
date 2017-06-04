@@ -74,6 +74,14 @@ void DIALOG_PREFERENCES::InitializeTree()
 
 }
 
+void DIALOG_PREFERENCES::SavePreferences()
+{
+    for( auto panel : m_panels )
+    {
+        panel->TransferDataFromPanel();
+    }
+}
+
 /**
  * Add a new preferences item
  *
