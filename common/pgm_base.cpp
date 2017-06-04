@@ -70,33 +70,6 @@ static const wxChar entryUseIconsInMenus[] = wxT( "UseIconsInMenus" );
 
 
 /**
- *   A small class to handle the list of existing translations.
- *   The locale translation is automatic.
- *   The selection of languages is mainly for maintainer's convenience
- *   To add a support to a new translation:
- *   create a new icon (flag of the country) (see Lang_Fr.xpm as an example)
- *   add a new item to s_Languages[].
- */
-struct LANGUAGE_DESCR
-{
-    /// wxWidgets locale identifier (See wxWidgets doc)
-    int         m_WX_Lang_Identifier;
-
-    /// KiCad identifier used in menu selection (See id.h)
-    int         m_KI_Lang_Identifier;
-
-    /// The menu language icons
-    BITMAP_DEF  m_Lang_Icon;
-
-    /// Labels used in menus
-    wxString    m_Lang_Label;
-
-    /// Set to true if the m_Lang_Label must not be translated
-    bool        m_DoNotTranslate;
-};
-
-
-/**
  * Variable s_Languages
  * Note: because this list is not created on the fly, wxTranslation
  * must be called when a language name must be displayed after translation.
@@ -110,6 +83,46 @@ static LANGUAGE_DESCR s_Languages[] =
         ID_LANGUAGE_DEFAULT,
         lang_def_xpm,
         _( "Default" )
+    },
+
+    // Bulgarian language
+    {
+        wxLANGUAGE_BULGARIAN,
+        ID_LANGUAGE_BULGARIAN,
+        lang_bg_xpm,
+        _( "Bulgarian" )
+    },
+
+    // Catalan language
+    {
+        wxLANGUAGE_CATALAN,
+        ID_LANGUAGE_CATALAN,
+        lang_catalan_xpm,
+        _( "Catalan" )
+    },
+
+    // Chinese simplified
+    {
+        wxLANGUAGE_CHINESE_SIMPLIFIED,
+        ID_LANGUAGE_CHINESE_SIMPLIFIED,
+        lang_chinese_xpm,
+        _( "Chinese simplified" )
+    },
+
+    // Czech language
+    {
+        wxLANGUAGE_CZECH,
+        ID_LANGUAGE_CZECH,
+        lang_cs_xpm,
+        _( "Czech" )
+    },
+
+    // Dutch language
+    {
+        wxLANGUAGE_DUTCH,
+        ID_LANGUAGE_DUTCH,
+        lang_nl_xpm,
+        _( "Dutch" )
     },
 
     // English language
@@ -137,30 +150,6 @@ static LANGUAGE_DESCR s_Languages[] =
         _( "Finnish" )
     },
 
-    // Spanish language
-    {
-        wxLANGUAGE_SPANISH,
-        ID_LANGUAGE_SPANISH,
-        lang_es_xpm,
-        _( "Spanish" )
-    },
-
-    // Portuguese language
-    {
-        wxLANGUAGE_PORTUGUESE,
-        ID_LANGUAGE_PORTUGUESE,
-        lang_pt_xpm,
-        _( "Portuguese" )
-    },
-
-    // Italian language
-    {
-        wxLANGUAGE_ITALIAN,
-        ID_LANGUAGE_ITALIAN,
-        lang_it_xpm,
-        _( "Italian" )
-    },
-
     // German language
     {
         wxLANGUAGE_GERMAN,
@@ -175,6 +164,71 @@ static LANGUAGE_DESCR s_Languages[] =
         ID_LANGUAGE_GREEK,
         lang_gr_xpm,
         _( "Greek" )
+    },
+
+    // Hungarian language
+    {
+        wxLANGUAGE_HUNGARIAN,
+        ID_LANGUAGE_HUNGARIAN,
+        lang_hu_xpm,
+        _( "Hungarian" )
+    },
+
+
+    // Italian language
+    {
+        wxLANGUAGE_ITALIAN,
+        ID_LANGUAGE_ITALIAN,
+        lang_it_xpm,
+        _( "Italian" )
+    },
+
+    // Japanese language
+    {
+        wxLANGUAGE_JAPANESE,
+        ID_LANGUAGE_JAPANESE,
+        lang_jp_xpm,
+        _( "Japanese" )
+    },
+
+    // Korean language
+    {
+        wxLANGUAGE_KOREAN,
+        ID_LANGUAGE_KOREAN,
+        lang_ko_xpm,
+        _( "Korean" )
+    },
+
+    // Lithuanian language
+    {
+        wxLANGUAGE_LITHUANIAN,
+        ID_LANGUAGE_LITHUANIAN,
+        lang_lt_xpm,
+        _( "Lithuanian" )
+    },
+
+    // Polish language
+    {
+        wxLANGUAGE_POLISH,
+        ID_LANGUAGE_POLISH,
+        lang_pl_xpm,
+        _( "Polish" )
+    },
+
+    // Portuguese language
+    {
+        wxLANGUAGE_PORTUGUESE,
+        ID_LANGUAGE_PORTUGUESE,
+        lang_pt_xpm,
+        _( "Portuguese" )
+    },
+
+    // Russian language
+    {
+        wxLANGUAGE_RUSSIAN,
+        ID_LANGUAGE_RUSSIAN,
+        lang_ru_xpm,
+        _( "Russian" )
     },
 
     // Slovenian language
@@ -193,92 +247,12 @@ static LANGUAGE_DESCR s_Languages[] =
         _( "Slovak" )
     },
 
-    // Hungarian language
+    // Spanish language
     {
-        wxLANGUAGE_HUNGARIAN,
-        ID_LANGUAGE_HUNGARIAN,
-        lang_hu_xpm,
-        _( "Hungarian" )
-    },
-
-    // Polish language
-    {
-        wxLANGUAGE_POLISH,
-        ID_LANGUAGE_POLISH,
-        lang_pl_xpm,
-        _( "Polish" )
-    },
-
-    // Czech language
-    {
-        wxLANGUAGE_CZECH,
-        ID_LANGUAGE_CZECH,
-        lang_cs_xpm,
-        _( "Czech" )
-    },
-
-    // Russian language
-    {
-        wxLANGUAGE_RUSSIAN,
-        ID_LANGUAGE_RUSSIAN,
-        lang_ru_xpm,
-        _( "Russian" )
-    },
-
-    // Korean language
-    {
-        wxLANGUAGE_KOREAN,
-        ID_LANGUAGE_KOREAN,
-        lang_ko_xpm,
-        _( "Korean" )
-    },
-
-    // Chinese simplified
-    {
-        wxLANGUAGE_CHINESE_SIMPLIFIED,
-        ID_LANGUAGE_CHINESE_SIMPLIFIED,
-        lang_chinese_xpm,
-        _( "Chinese simplified" )
-    },
-
-    // Catalan language
-    {
-        wxLANGUAGE_CATALAN,
-        ID_LANGUAGE_CATALAN,
-        lang_catalan_xpm,
-        _( "Catalan" )
-    },
-
-    // Dutch language
-    {
-        wxLANGUAGE_DUTCH,
-        ID_LANGUAGE_DUTCH,
-        lang_nl_xpm,
-        _( "Dutch" )
-    },
-
-    // Japanese language
-    {
-        wxLANGUAGE_JAPANESE,
-        ID_LANGUAGE_JAPANESE,
-        lang_jp_xpm,
-        _( "Japanese" )
-    },
-
-    // Bulgarian language
-    {
-        wxLANGUAGE_BULGARIAN,
-        ID_LANGUAGE_BULGARIAN,
-        lang_bg_xpm,
-        _( "Bulgarian" )
-    },
-
-    // Lithuanian language
-    {
-        wxLANGUAGE_LITHUANIAN,
-        ID_LANGUAGE_LITHUANIAN,
-        lang_lt_xpm,
-        _( "Lithuanian" )
+        wxLANGUAGE_SPANISH,
+        ID_LANGUAGE_SPANISH,
+        lang_es_xpm,
+        _( "Spanish" )
     }
 };
 
@@ -302,6 +276,17 @@ PGM_BASE::~PGM_BASE()
     Destroy();
 }
 
+std::vector<LANGUAGE_DESCR*> PGM_BASE::GetLanguages() const
+{
+    std::vector<LANGUAGE_DESCR*> lang;
+
+    for( unsigned int i = 0; i < DIM( s_Languages ); i++ )
+    {
+        lang.push_back( &s_Languages[i] );
+    }
+
+    return lang;
+}
 
 void PGM_BASE::Destroy()
 {

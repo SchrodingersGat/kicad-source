@@ -35,13 +35,39 @@
 #include <wx/filename.h>
 #include <search_stack.h>
 #include <wx/gdicmn.h>
-
+#include <bitmap_types.h>
 
 class wxConfigBase;
 class wxSingleInstanceChecker;
 class wxApp;
 class wxMenu;
 class wxWindow;
+
+/**
+ *   A small class to handle the list of existing translations.
+ *   The locale translation is automatic.
+ *   The selection of languages is mainly for maintainer's convenience
+ *   To add a support to a new translation:
+ *   create a new icon (flag of the country) (see Lang_Fr.xpm as an example)
+ *   add a new item to s_Languages[].
+ */
+struct LANGUAGE_DESCR
+{
+    /// wxWidgets locale identifier (See wxWidgets doc)
+    int         m_WX_Lang_Identifier;
+
+    /// KiCad identifier used in menu selection (See id.h)
+    int         m_KI_Lang_Identifier;
+
+    /// The menu language icons
+    BITMAP_DEF  m_Lang_Icon;
+
+    /// Labels used in menus
+    wxString    m_Lang_Label;
+
+    /// Set to true if the m_Lang_Label must not be translated
+    bool        m_DoNotTranslate;
+};
 
 
 // inter program module calling
@@ -327,6 +353,13 @@ public:
     void SetUseIconsInMenus( bool aUseIcons ) { m_useIconsInMenus = aUseIcons; }
     bool GetUseIconsInMenus() { return m_useIconsInMenus; }
 
+    /**
+     * Function GetLanguages
+     * return a list of the supported translation langauges
+     */
+    std::vector<LANGUAGE_DESCR*> GetLanguages() const;
+
+    int GetLanguageId() const { return m_language_id; }
 
 protected:
 
