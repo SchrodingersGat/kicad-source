@@ -48,6 +48,11 @@ void DIALOG_PREFERENCES_GLOBAL::AddItems( wxTreeItemId& aRoot )
                             PREF_GLOBAL_GENERAL,
                             new PANEL_PREF_GENERAL( parent ) );
 
+    AddItem( general,
+            _( "Hotkeys" ),
+            PREF_GLOBAL_HOTKEYS,
+            new PANEL_PREF( parent ) );
+
 
     auto paths = AddItem( aRoot,
                           _( "Paths" ),
@@ -103,4 +108,28 @@ void DIALOG_PREFERENCES_GLOBAL::AddItems( wxTreeItemId& aRoot )
                         _( "PCB" ),
                         PREF_PCB_TOP,
                         new PANEL_PREF( parent ) );
+
+    //TODO
+    AddItem( pcb,
+            _( "Dimensions" ),
+            PREF_PCB_DIMENSIONS,
+            new PANEL_PREF( parent ) );
+
+    //TODO
+    AddItem( pcb,
+            _( "Display" ),
+            PREF_PCB_DISPLAY,
+            new PANEL_PREF( parent ) );
+
+    //TODO
+    AddItem( pcb,
+            _( "Routing" ),
+            PREF_PCB_ROUTING,
+            new PANEL_PREF( parent ) );
+
+    //TODO
+    AddItem( pcb,
+            _( "Hotkeys" ),
+            PREF_PCB_HOTKEYS,
+            new PANEL_PREF( parent ) );
 }

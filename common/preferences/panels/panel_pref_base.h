@@ -41,7 +41,9 @@ enum PreferencePanelIds
 
     // Global preference panels
     PREF_GLOBAL_GENERAL = 100,
+    PREF_GLOBAL_HOTKEYS,
 
+    //
     PREF_ENV_VAR_EDITOR,
 
     // Schematic options
@@ -55,6 +57,10 @@ enum PreferencePanelIds
 
     // PCB options
     PREF_PCB_TOP,
+    PREF_PCB_DIMENSIONS,
+    PREF_PCB_DISPLAY,
+    PREF_PCB_ROUTING,
+    PREF_PCB_HOTKEYS,
 };
 
 /**
