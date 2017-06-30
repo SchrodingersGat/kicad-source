@@ -30,5 +30,12 @@ int InvokeDialogPreferencesGlobal( EDA_BASE_FRAME* aCaller, int aPreferenceId )
 
     dlg.SetPreferencesPanel( aPreferenceId );
 
-    return dlg.ShowModal();
+    int result = dlg.ShowModal();
+
+    if( result == wxID_OK )
+    {
+        dlg.SavePreferences();
+
+        printf("Saving prefs\n");
+    }
 }

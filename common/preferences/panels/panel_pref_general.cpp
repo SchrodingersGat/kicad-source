@@ -42,6 +42,35 @@ PANEL_PREF_GENERAL::~PANEL_PREF_GENERAL()
 
 }
 
+void PANEL_PREF_GENERAL::TransferDataFromPanel()
+{
+    auto& pgm = Pgm();
+
+    auto langs = pgm.GetLanguages();
+
+    unsigned int idx = m_comboSelectLanguage->GetSelection();
+
+    int newLang = -1;
+
+    if( idx < langs.size() )
+    {
+        newLang = langs.at(idx)->m_WX_Lang_Identifier;
+    }
+
+    if( newLang != -1 && newLang != m_selectedLanguage )
+    {
+        //TODO - Make language change now
+    }
+
+    // Show icons in menus?
+    pgm.SetUseIconsInMenus( m_optShowIconsInMenus->GetValue() );
+
+
+    //TODO - Set text editor and PDF browser
+    //pgm.SetEditorName( )
+    //pgm.SetPdfBrowserName()
+}
+
 void PANEL_PREF_GENERAL::TransferDataToPanel()
 {
     // Add options for PDF viewer
@@ -57,6 +86,8 @@ void PANEL_PREF_GENERAL::TransferDataToPanel()
 
     // Selection index
     int idx = 0;
+
+    m_selectedLanguage = pgm.GetLanguageId();
 
     for( unsigned int i=0; i<langs.size(); i++ )
     {
@@ -95,4 +126,14 @@ void PANEL_PREF_GENERAL::OnSelectTextEditor( wxCommandEvent& event )
     wxString defaultEditor;
 
     auto te = Pgm().AskUserForPreferredEditor( defaultEditor );
+}
+
+void PANEL_PREF_GENERAL::OnSelectPdfViewer( wxCommandEvent& event )
+{
+    auto pdf = Pgm().AskUserForPdfBrowser();
+
+    if( !pdf.IsEmpty() )
+    {
+        //TODO - New PDF viewer was selected!
+    }
 }

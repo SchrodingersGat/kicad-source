@@ -66,25 +66,10 @@ void KICAD_MANAGER_FRAME::OnSelectPreferredPdfBrowser( wxCommandEvent& event )
 
     if( setPdfBrowserName )
     {
-        wxString mask( wxT( "*" ) );
+        auto pdfBrowser = Pgm().AskUserForPdfBrowser();
 
-    #ifdef __WINDOWS__
-        mask += wxT( ".exe" );
-    #endif
-
-        wxString wildcard = _( "Executable files (" ) + mask + wxT( ")|" ) + mask;
-
-        Pgm().ReadPdfBrowserInfos();
-        wxFileName fn = Pgm().GetPdfBrowserName();
-
-        wxFileDialog dlg( this, _( "Select Preferred PDF Browser" ), fn.GetPath(),
-                          fn.GetFullPath(), wildcard,
-                          wxFD_OPEN | wxFD_FILE_MUST_EXIST );
-
-        if( dlg.ShowModal() == wxID_CANCEL )
-            return;
-
-        Pgm().SetPdfBrowserName( dlg.GetPath() );
+        if( !pdfBrowser.IsEmpty() )
+            Pgm().SetPdfBrowserName( pdfBrowser );
     }
 
     Pgm().ForceSystemPdfBrowser( false );

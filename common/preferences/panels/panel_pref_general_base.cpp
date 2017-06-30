@@ -91,6 +91,7 @@ PANEL_PREF_GENERAL_BASE::PANEL_PREF_GENERAL_BASE( wxWindow* parent, wxWindowID i
 	
 	// Connect Events
 	m_buttonSelectTextEditor->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_GENERAL_BASE::OnSelectTextEditor ), NULL, this );
+	m_buttonSelectPdfViewer->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_GENERAL_BASE::OnSelectPdfViewer ), NULL, this );
 	m_optShowIconsInMenus->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PANEL_PREF_GENERAL_BASE::OnToggleShowItems ), NULL, this );
 }
 
@@ -98,6 +99,7 @@ PANEL_PREF_GENERAL_BASE::~PANEL_PREF_GENERAL_BASE()
 {
 	// Disconnect Events
 	m_buttonSelectTextEditor->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_GENERAL_BASE::OnSelectTextEditor ), NULL, this );
+	m_buttonSelectPdfViewer->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_GENERAL_BASE::OnSelectPdfViewer ), NULL, this );
 	m_optShowIconsInMenus->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( PANEL_PREF_GENERAL_BASE::OnToggleShowItems ), NULL, this );
 	
 }

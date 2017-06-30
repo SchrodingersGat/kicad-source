@@ -361,6 +361,11 @@ public:
 
     int GetLanguageId() const { return m_language_id; }
 
+    /**
+     * Present file dialog asking user to select PDF browser program
+     */
+    wxString AskUserForPdfBrowser();
+
 protected:
 
     /**

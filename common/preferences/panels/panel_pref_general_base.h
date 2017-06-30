@@ -55,6 +55,7 @@ class PANEL_PREF_GENERAL_BASE : public PANEL_PREF
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnSelectTextEditor( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSelectPdfViewer( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnToggleShowItems( wxCommandEvent& event ) { event.Skip(); }
 		
 	

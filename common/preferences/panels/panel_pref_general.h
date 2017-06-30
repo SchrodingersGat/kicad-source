@@ -34,10 +34,14 @@ public:
     virtual ~PANEL_PREF_GENERAL();
 
     virtual void TransferDataToPanel() override;
+    virtual void TransferDataFromPanel() override;
 
 protected:
     // UI events
     virtual void OnSelectTextEditor( wxCommandEvent& event ) override;
+    virtual void OnSelectPdfViewer( wxCommandEvent& event ) override;
+
+    int m_selectedLanguage = -1;
 
 };
 

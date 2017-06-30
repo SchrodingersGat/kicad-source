@@ -34,6 +34,7 @@
 #include <wx/html/htmlwin.h>
 #include <wx/fs_zip.h>
 #include <wx/dir.h>
+#include <wx/filedlg.h>
 #include <wx/filename.h>
 #include <wx/snglinst.h>
 #include <wx/stdpaths.h>
@@ -276,6 +277,7 @@ PGM_BASE::~PGM_BASE()
     Destroy();
 }
 
+
 std::vector<LANGUAGE_DESCR*> PGM_BASE::GetLanguages() const
 {
     std::vector<LANGUAGE_DESCR*> lang;
@@ -287,6 +289,31 @@ std::vector<LANGUAGE_DESCR*> PGM_BASE::GetLanguages() const
 
     return lang;
 }
+
+
+wxString PGM_BASE::AskUserForPdfBrowser()
+{
+    wxString mask( wxT( "*" ) );
+
+    #ifdef __WINDOWS__
+        mask += wxT( ".exe" );
+    #endif
+
+    wxString wildcard = _( "Executable files (" ) + mask + wxT( ")|" ) + mask;
+
+    Pgm().ReadPdfBrowserInfos();
+    wxFileName fn = Pgm().GetPdfBrowserName();
+
+    wxFileDialog dlg( 0, _( "Select Preferred PDF Browser" ), fn.GetPath(),
+                      fn.GetFullPath(), wildcard,
+                      wxFD_OPEN | wxFD_FILE_MUST_EXIST );
+
+    if( dlg.ShowModal() == wxID_CANCEL )
+        return wxEmptyString;
+
+    return dlg.GetPath();
+}
+
 
 void PGM_BASE::Destroy()
 {
