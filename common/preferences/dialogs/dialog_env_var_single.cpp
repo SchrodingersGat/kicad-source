@@ -22,32 +22,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
-#ifndef PANEL_PREF_ENV_VAR_H_
-#define PANEL_PREF_ENV_VAR_H_
+#include <bitmaps.h>
 
-#include <pgm_base.h>
+#include "dialog_env_var_single.h"
 
-#include "panel_pref_env_var_base.h"
-
-class PANEL_PREF_ENV_VAR : public PANEL_PREF_ENV_VAR_BASE
+DIALOG_ENV_VAR_SINGLE::DIALOG_ENV_VAR_SINGLE( wxWindow* parent, const wxString aEnvVarName, const wxString aEnvVarPath ) :
+    DIALOG_ENV_VAR_SINGLE_BASE( parent )
 {
-public:
-    PANEL_PREF_ENV_VAR( wxWindow* aParent, const ENV_VAR_MAP& aEnvVars );
-    virtual ~PANEL_PREF_ENV_VAR();
+    m_selectPathButton->SetBitmap( KiBitmap( directory_xpm ) );
 
-    virtual void TransferDataToPanel() override;
-    virtual void TransferDataFromPanel() override;
+    m_envVarName->SetLabel( aEnvVarName );
 
-protected:
-    ENV_VAR_MAP  m_envVarMap;
+    m_envVarPath->SetLabelText( aEnvVarPath );
+}
 
-    void PopulatePathList();
-
-    virtual void OnAddButton( wxCommandEvent& event ) override;
-    virtual void OnEditButton( wxCommandEvent& event ) override;
-    virtual void OnRemoveButton( wxCommandEvent& event ) override;
-};
-
-
-
-#endif /* PANEL_PREF_ENV_VAR_H_ */
+void DIALOG_ENV_VAR_SINGLE::OnSelectPath( wxCommandEvent& event )
+{
+    //TODO
+}

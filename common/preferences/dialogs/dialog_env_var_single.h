@@ -22,32 +22,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  */
 
-#ifndef PANEL_PREF_ENV_VAR_H_
-#define PANEL_PREF_ENV_VAR_H_
 
-#include <pgm_base.h>
+#ifndef DIALOG_ENV_VAR_SINGLE_H_
+#define DIALOG_ENV_VAR_SINGLE_H_
 
-#include "panel_pref_env_var_base.h"
+#include "dialog_env_var_single_base.h"
 
-class PANEL_PREF_ENV_VAR : public PANEL_PREF_ENV_VAR_BASE
+class DIALOG_ENV_VAR_SINGLE : public DIALOG_ENV_VAR_SINGLE_BASE
 {
 public:
-    PANEL_PREF_ENV_VAR( wxWindow* aParent, const ENV_VAR_MAP& aEnvVars );
-    virtual ~PANEL_PREF_ENV_VAR();
-
-    virtual void TransferDataToPanel() override;
-    virtual void TransferDataFromPanel() override;
+    DIALOG_ENV_VAR_SINGLE( wxWindow* parent, const wxString aEnvVarName, const wxString aEnvVarPath );
 
 protected:
-    ENV_VAR_MAP  m_envVarMap;
+    virtual void OnSelectPath( wxCommandEvent& event ) override;
 
-    void PopulatePathList();
-
-    virtual void OnAddButton( wxCommandEvent& event ) override;
-    virtual void OnEditButton( wxCommandEvent& event ) override;
-    virtual void OnRemoveButton( wxCommandEvent& event ) override;
 };
 
 
-
-#endif /* PANEL_PREF_ENV_VAR_H_ */
+#endif /* DIALOG_ENV_VAR_SINGLE_H_ */

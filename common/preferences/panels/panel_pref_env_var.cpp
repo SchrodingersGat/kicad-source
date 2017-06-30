@@ -24,6 +24,8 @@
 
 #include "panel_pref_env_var.h"
 
+#include "dialog_env_var_single.h"
+
 PANEL_PREF_ENV_VAR::PANEL_PREF_ENV_VAR( wxWindow* aParent, const ENV_VAR_MAP& aEnvVars ) : PANEL_PREF_ENV_VAR_BASE( aParent )
 {
     // Copy environment variables across
@@ -31,6 +33,11 @@ PANEL_PREF_ENV_VAR::PANEL_PREF_ENV_VAR( wxWindow* aParent, const ENV_VAR_MAP& aE
 }
 
 PANEL_PREF_ENV_VAR::~PANEL_PREF_ENV_VAR()
+{
+
+}
+
+void PANEL_PREF_ENV_VAR::TransferDataFromPanel()
 {
 
 }
@@ -59,4 +66,33 @@ void PANEL_PREF_ENV_VAR::PopulatePathList()
 
         row++;
     }
+}
+
+void PANEL_PREF_ENV_VAR::OnAddButton( wxCommandEvent& event )
+{
+    auto dlg = new DIALOG_ENV_VAR_SINGLE( nullptr, "PATH", "Add/New/Path" );
+
+    if( dlg->ShowModal() == wxID_OK )
+    {
+        //TODO
+    }
+
+    dlg->Destroy();
+}
+
+void PANEL_PREF_ENV_VAR::OnEditButton( wxCommandEvent& event )
+{
+    auto dlg = new DIALOG_ENV_VAR_SINGLE( nullptr, "PATH", "Edit/Path" );
+
+    if( dlg->ShowModal() == wxID_OK )
+    {
+        //TODO
+    }
+
+    dlg->Destroy();
+}
+
+void PANEL_PREF_ENV_VAR::OnRemoveButton( wxCommandEvent& event )
+{
+    //TODO
 }

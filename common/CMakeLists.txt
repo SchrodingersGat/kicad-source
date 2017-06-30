@@ -147,6 +147,8 @@ set( PREF_DIALOG_SRCS
 	preferences/dialogs/dialog_pref_base.cpp
 	preferences/dialogs/dialog_pref.cpp
 	preferences/dialogs/dialog_preferences_global.cpp
+	preferences/dialogs/dialog_env_var_single_base.cpp
+	preferences/dialogs/dialog_env_var_single.cpp
 	)
 	
 set( PREF_PANEL_SRCS
