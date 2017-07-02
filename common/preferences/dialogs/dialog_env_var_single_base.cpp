@@ -16,23 +16,36 @@ DIALOG_ENV_VAR_SINGLE_BASE::DIALOG_ENV_VAR_SINGLE_BASE( wxWindow* parent, wxWind
 	wxBoxSizer* bSizer2;
 	bSizer2 = new wxBoxSizer( wxVERTICAL );
 	
-	m_envVarName = new wxStaticText( this, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_envVarName->Wrap( -1 );
-	bSizer2->Add( m_envVarName, 0, wxALL|wxEXPAND, 5 );
+	wxFlexGridSizer* fgSizer1;
+	fgSizer1 = new wxFlexGridSizer( 2, 3, 0, 0 );
+	fgSizer1->AddGrowableCol( 1 );
+	fgSizer1->SetFlexibleDirection( wxHORIZONTAL );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxBoxSizer* bSizer3;
-	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
+	m_envVarNameLabel = new wxStaticText( this, wxID_ANY, wxT("Name"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	m_envVarNameLabel->Wrap( -1 );
+	fgSizer1->Add( m_envVarNameLabel, 0, wxALIGN_CENTER|wxALL, 5 );
+	
+	m_envVarName = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer1->Add( m_envVarName, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	fgSizer1->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_envVarPathLabel = new wxStaticText( this, wxID_ANY, wxT("Path"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	m_envVarPathLabel->Wrap( -1 );
+	fgSizer1->Add( m_envVarPathLabel, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	m_envVarPath = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( m_envVarPath, 1, wxALL, 5 );
+	fgSizer1->Add( m_envVarPath, 1, wxALL|wxEXPAND, 5 );
 	
 	m_selectPathButton = new wxBitmapButton( this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	m_selectPathButton->SetToolTip( wxT("Select path ") );
 	
-	bSizer3->Add( m_selectPathButton, 0, wxALL, 5 );
+	fgSizer1->Add( m_selectPathButton, 0, wxALL, 5 );
 	
 	
-	bSizer2->Add( bSizer3, 0, wxEXPAND, 5 );
+	bSizer2->Add( fgSizer1, 0, wxEXPAND, 5 );
 	
 	
 	bSizer2->Add( 0, 0, 1, wxEXPAND, 5 );

@@ -94,6 +94,7 @@ PANEL_PREF_ENV_VAR_BASE::PANEL_PREF_ENV_VAR_BASE( wxWindow* parent, wxWindowID i
 	this->Layout();
 	
 	// Connect Events
+	m_pathList->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( PANEL_PREF_ENV_VAR_BASE::OnPathSelected ), NULL, this );
 	m_addPathButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_ENV_VAR_BASE::OnAddButton ), NULL, this );
 	m_editPathButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_ENV_VAR_BASE::OnEditButton ), NULL, this );
 	m_deletePathButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_ENV_VAR_BASE::OnRemoveButton ), NULL, this );
@@ -103,6 +104,7 @@ PANEL_PREF_ENV_VAR_BASE::PANEL_PREF_ENV_VAR_BASE( wxWindow* parent, wxWindowID i
 PANEL_PREF_ENV_VAR_BASE::~PANEL_PREF_ENV_VAR_BASE()
 {
 	// Disconnect Events
+	m_pathList->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( PANEL_PREF_ENV_VAR_BASE::OnPathSelected ), NULL, this );
 	m_addPathButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_ENV_VAR_BASE::OnAddButton ), NULL, this );
 	m_editPathButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_ENV_VAR_BASE::OnEditButton ), NULL, this );
 	m_deletePathButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_ENV_VAR_BASE::OnRemoveButton ), NULL, this );

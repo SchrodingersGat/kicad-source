@@ -23,6 +23,8 @@
  */
 
 #include <bitmaps.h>
+#include <project.h>
+#include <wx/dirdlg.h>
 
 #include "dialog_env_var_single.h"
 
@@ -31,12 +33,42 @@ DIALOG_ENV_VAR_SINGLE::DIALOG_ENV_VAR_SINGLE( wxWindow* parent, const wxString a
 {
     m_selectPathButton->SetBitmap( KiBitmap( directory_xpm ) );
 
-    m_envVarName->SetLabel( aEnvVarName );
+    m_envVarName->SetValue( aEnvVarName );
 
-    m_envVarPath->SetLabelText( aEnvVarPath );
+    m_envVarPath->SetValue( aEnvVarPath );
+}
+
+wxString DIALOG_ENV_VAR_SINGLE::GetEnvVarName() const
+{
+    return m_envVarName->GetValue();
+}
+
+wxString DIALOG_ENV_VAR_SINGLE::GetEnvVarPath() const
+{
+    return m_envVarPath->GetValue();
 }
 
 void DIALOG_ENV_VAR_SINGLE::OnSelectPath( wxCommandEvent& event )
 {
-    //TODO
+    wxString title = _( "Set path for ENV_VAR" );
+
+    wxString path = wxEmptyString;
+
+    if( 1 )
+    {
+        //path = Prj().GetProjectPath();
+    }
+
+    wxDirDialog dlg( this,
+                     title,
+                     path,
+                     wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_CHANGE_DIR );
+
+    if( dlg.ShowModal() == wxID_OK )
+    {
+        path = dlg.GetPath();
+
+        m_envVarPath->SetValue( path );
+    }
+
 }

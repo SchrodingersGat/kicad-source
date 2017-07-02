@@ -40,7 +40,9 @@ class DIALOG_ENV_VAR_SINGLE_BASE : public DIALOG_SHIM
 	private:
 	
 	protected:
-		wxStaticText* m_envVarName;
+		wxStaticText* m_envVarNameLabel;
+		wxTextCtrl* m_envVarName;
+		wxStaticText* m_envVarPathLabel;
 		wxTextCtrl* m_envVarPath;
 		wxBitmapButton* m_selectPathButton;
 		wxStaticLine* m_staticline1;
@@ -54,7 +56,7 @@ class DIALOG_ENV_VAR_SINGLE_BASE : public DIALOG_SHIM
 	
 	public:
 		
-		DIALOG_ENV_VAR_SINGLE_BASE( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Set Environment Path"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 431,159 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		DIALOG_ENV_VAR_SINGLE_BASE( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Set Environment Path"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 431,176 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~DIALOG_ENV_VAR_SINGLE_BASE();
 	
 };

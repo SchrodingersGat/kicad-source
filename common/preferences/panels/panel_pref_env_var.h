@@ -46,6 +46,12 @@ protected:
     virtual void OnAddButton( wxCommandEvent& event ) override;
     virtual void OnEditButton( wxCommandEvent& event ) override;
     virtual void OnRemoveButton( wxCommandEvent& event ) override;
+
+    virtual void OnPathSelected( wxListEvent& event ) override;
+
+    unsigned int m_pathIndex = 0;
+
+    bool GetPathAtIndex( int aIndex, wxString& aEnvVar, wxString& aEnvPath );
 };
 
 

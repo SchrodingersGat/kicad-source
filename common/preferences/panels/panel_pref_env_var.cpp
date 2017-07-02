@@ -68,9 +68,34 @@ void PANEL_PREF_ENV_VAR::PopulatePathList()
     }
 }
 
+bool PANEL_PREF_ENV_VAR::GetPathAtIndex( int aIndex, wxString& aEnvVar, wxString& aEnvPath )
+{
+    if( aIndex < 0 || aIndex > m_envVarMap.size() )
+    {
+        return false;
+    }
+
+    int idx = 0;
+
+    for( auto it = m_envVarMap.begin(); it != m_envVarMap.end(); ++it )
+    {
+        if( idx == aIndex )
+        {
+            aEnvVar = it->first;
+            aEnvPath = it->second.GetValue();
+
+            return true;
+        }
+
+        idx++;
+    }
+
+    return false;
+}
+
 void PANEL_PREF_ENV_VAR::OnAddButton( wxCommandEvent& event )
 {
-    auto dlg = new DIALOG_ENV_VAR_SINGLE( nullptr, "PATH", "Add/New/Path" );
+    auto dlg = new DIALOG_ENV_VAR_SINGLE( nullptr, wxEmptyString, wxEmptyString );
 
     if( dlg->ShowModal() == wxID_OK )
     {
@@ -82,17 +107,28 @@ void PANEL_PREF_ENV_VAR::OnAddButton( wxCommandEvent& event )
 
 void PANEL_PREF_ENV_VAR::OnEditButton( wxCommandEvent& event )
 {
-    auto dlg = new DIALOG_ENV_VAR_SINGLE( nullptr, "PATH", "Edit/Path" );
+    wxString envName;
+    wxString envPath;
 
-    if( dlg->ShowModal() == wxID_OK )
+    if( GetPathAtIndex( m_pathIndex, envName, envPath ) )
     {
-        //TODO
-    }
+        auto dlg = new DIALOG_ENV_VAR_SINGLE( nullptr, envName, envPath );
 
-    dlg->Destroy();
+        if( dlg->ShowModal() == wxID_OK )
+        {
+            //TODO
+        }
+
+        dlg->Destroy();
+    }
 }
 
 void PANEL_PREF_ENV_VAR::OnRemoveButton( wxCommandEvent& event )
 {
     //TODO
+}
+
+void PANEL_PREF_ENV_VAR::OnPathSelected( wxListEvent& event )
+{
+    m_pathIndex = event.GetIndex();
 }

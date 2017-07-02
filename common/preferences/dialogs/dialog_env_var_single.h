@@ -33,6 +33,9 @@ class DIALOG_ENV_VAR_SINGLE : public DIALOG_ENV_VAR_SINGLE_BASE
 public:
     DIALOG_ENV_VAR_SINGLE( wxWindow* parent, const wxString aEnvVarName, const wxString aEnvVarPath );
 
+    wxString GetEnvVarName() const;
+    wxString GetEnvVarPath() const;
+
 protected:
     virtual void OnSelectPath( wxCommandEvent& event ) override;
 
