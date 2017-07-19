@@ -159,6 +159,7 @@ set( PREF_PANEL_SRCS
 	preferences/panels/panel_pref_general.cpp
 	preferences/panels/panel_pref_libedit_base.cpp
 	preferences/panels/panel_pref_schematic_base.cpp
+	preferences/panels/panel_pref_eeschema_color_config.cpp
 	)
 	
 set( PREFERENCE_SRCS

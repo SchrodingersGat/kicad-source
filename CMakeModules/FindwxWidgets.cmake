@@ -226,6 +226,9 @@ else()
   set(wxWidgets_FIND_STYLE "unix")
 endif()
 
+# Add wxPropertyGrid linkings
+list(APPEND wxWidgets_FIND_COMPONENTS propgrid)
+
 #=====================================================================
 # WIN32_FIND_STYLE
 #=====================================================================
@@ -238,7 +241,7 @@ if(wxWidgets_FIND_STYLE STREQUAL "win32")
     if(wxWidgets_USE_MONOLITHIC)
       set(wxWidgets_FIND_COMPONENTS mono)
     else()
-      set(wxWidgets_FIND_COMPONENTS core base) # this is default
+      set(wxWidgets_FIND_COMPONENTS core base propgrid) # this is default
     endif()
   endif()
 
@@ -644,6 +647,7 @@ if(wxWidgets_FIND_STYLE STREQUAL "win32")
 # UNIX_FIND_STYLE
 #=====================================================================
 else()
+
   if(wxWidgets_FIND_STYLE STREQUAL "unix")
     #-----------------------------------------------------------------
     # UNIX: Helper MACROS

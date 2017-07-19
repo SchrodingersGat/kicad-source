@@ -268,23 +268,6 @@ PANEL_PREF_SCHEMATIC_CONTROLS_BASE::~PANEL_PREF_SCHEMATIC_CONTROLS_BASE()
 {
 }
 
-PANEL_PREF_SCHEMATIC_COLORS_BASE::PANEL_PREF_SCHEMATIC_COLORS_BASE( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : PANEL_PREF( parent, id, pos, size, style )
-{
-	wxBoxSizer* bSizer14;
-	bSizer14 = new wxBoxSizer( wxVERTICAL );
-	
-	m_panelColors = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	bSizer14->Add( m_panelColors, 1, wxEXPAND | wxALL, 5 );
-	
-	
-	this->SetSizer( bSizer14 );
-	this->Layout();
-}
-
-PANEL_PREF_SCHEMATIC_COLORS_BASE::~PANEL_PREF_SCHEMATIC_COLORS_BASE()
-{
-}
-
 BEGIN_EVENT_TABLE( PANEL_PREF_SCHEMATIC_DEFAULT_FIELDS, PANEL_PREF )
 	EVT_BUTTON( wxID_ADD_FIELD, PANEL_PREF_SCHEMATIC_DEFAULT_FIELDS::_wxFB_OnAddButtonClick )
 	EVT_BUTTON( wxID_DELETE_FIELD, PANEL_PREF_SCHEMATIC_DEFAULT_FIELDS::_wxFB_OnDeleteButtonClick )

@@ -142,23 +142,6 @@ class PANEL_PREF_SCHEMATIC_CONTROLS_BASE : public PANEL_PREF
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class PANEL_PREF_SCHEMATIC_COLORS_BASE
-///////////////////////////////////////////////////////////////////////////////
-class PANEL_PREF_SCHEMATIC_COLORS_BASE : public PANEL_PREF
-{
-	private:
-	
-	protected:
-		wxPanel* m_panelColors;
-	
-	public:
-		
-		PANEL_PREF_SCHEMATIC_COLORS_BASE( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxTAB_TRAVERSAL ); 
-		~PANEL_PREF_SCHEMATIC_COLORS_BASE();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
 /// Class PANEL_PREF_SCHEMATIC_DEFAULT_FIELDS
 ///////////////////////////////////////////////////////////////////////////////
 class PANEL_PREF_SCHEMATIC_DEFAULT_FIELDS : public PANEL_PREF

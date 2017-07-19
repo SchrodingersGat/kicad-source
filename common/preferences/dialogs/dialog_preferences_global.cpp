@@ -31,6 +31,7 @@
 #include "panels/panel_pref_env_var.h"
 #include "panels/panel_pref_libedit_base.h" //TODO - Subclass base
 #include "panels/panel_pref_schematic_base.h" //TODO - Subclass these
+#include "panels/panel_pref_eeschema_color_config.h"
 
 DIALOG_PREFERENCES_GLOBAL::DIALOG_PREFERENCES_GLOBAL( wxWindow* aParent ) : DIALOG_PREFERENCES( aParent )
 {
@@ -88,7 +89,7 @@ void DIALOG_PREFERENCES_GLOBAL::AddItems( wxTreeItemId& aRoot )
     AddItem( schem,
             _( "Colors" ),
             PREF_SCHEMATIC_COLORS,
-            new PANEL_PREF_SCHEMATIC_COLORS_BASE( parent ) );
+            new PANEL_PREF_EESCHEMA_COLOR_CONFIG( parent ) );
 
     //TODO
     AddItem( schem,
