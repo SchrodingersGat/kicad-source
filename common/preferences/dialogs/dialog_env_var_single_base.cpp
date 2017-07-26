@@ -32,7 +32,7 @@ DIALOG_ENV_VAR_SINGLE_BASE::DIALOG_ENV_VAR_SINGLE_BASE( wxWindow* parent, wxWind
 	
 	fgSizer1->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	m_envVarPathLabel = new wxStaticText( this, wxID_ANY, wxT("Path"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	m_envVarPathLabel = new wxStaticText( this, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	m_envVarPathLabel->Wrap( -1 );
 	fgSizer1->Add( m_envVarPathLabel, 0, wxALIGN_CENTER|wxALL, 5 );
 	
@@ -70,11 +70,13 @@ DIALOG_ENV_VAR_SINGLE_BASE::DIALOG_ENV_VAR_SINGLE_BASE( wxWindow* parent, wxWind
 	
 	// Connect Events
 	m_selectPathButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DIALOG_ENV_VAR_SINGLE_BASE::OnSelectPath ), NULL, this );
+	m_sdbSizer1OK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DIALOG_ENV_VAR_SINGLE_BASE::OnOkButton ), NULL, this );
 }
 
 DIALOG_ENV_VAR_SINGLE_BASE::~DIALOG_ENV_VAR_SINGLE_BASE()
 {
 	// Disconnect Events
 	m_selectPathButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DIALOG_ENV_VAR_SINGLE_BASE::OnSelectPath ), NULL, this );
+	m_sdbSizer1OK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DIALOG_ENV_VAR_SINGLE_BASE::OnOkButton ), NULL, this );
 	
 }

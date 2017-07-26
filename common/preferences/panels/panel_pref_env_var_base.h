@@ -48,9 +48,9 @@ class PANEL_PREF_ENV_VAR_BASE : public PANEL_PREF
 		wxButton* m_editPathButton;
 		wxButton* m_deletePathButton;
 		wxButton* m_helpButon;
-		wxStaticText* m_pathDescription;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnPathActivated( wxListEvent& event ) { event.Skip(); }
 		virtual void OnPathSelected( wxListEvent& event ) { event.Skip(); }
 		virtual void OnAddButton( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnEditButton( wxCommandEvent& event ) { event.Skip(); }

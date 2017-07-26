@@ -38,7 +38,7 @@ public:
 
 protected:
     virtual void OnSelectPath( wxCommandEvent& event ) override;
-
+    virtual void OnOkButton( wxCommandEvent& aEvent ) override;
 };
 
 

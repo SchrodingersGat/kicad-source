@@ -79,13 +79,6 @@ PANEL_PREF_ENV_VAR_BASE::PANEL_PREF_ENV_VAR_BASE( wxWindow* parent, wxWindowID i
 	
 	sbSizer2->Add( bSizer7, 1, wxEXPAND, 5 );
 	
-	m_pathDescription = new wxStaticText( sbSizer2->GetStaticBox(), wxID_ANY, wxT("<Path description goes here>"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_pathDescription->Wrap( -1 );
-	sbSizer2->Add( m_pathDescription, 0, wxALL|wxEXPAND, 5 );
-	
-	
-	sbSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
-	
 	
 	bSizer5->Add( sbSizer2, 1, wxEXPAND, 5 );
 	
@@ -94,6 +87,7 @@ PANEL_PREF_ENV_VAR_BASE::PANEL_PREF_ENV_VAR_BASE( wxWindow* parent, wxWindowID i
 	this->Layout();
 	
 	// Connect Events
+	m_pathList->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( PANEL_PREF_ENV_VAR_BASE::OnPathActivated ), NULL, this );
 	m_pathList->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( PANEL_PREF_ENV_VAR_BASE::OnPathSelected ), NULL, this );
 	m_addPathButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_ENV_VAR_BASE::OnAddButton ), NULL, this );
 	m_editPathButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_ENV_VAR_BASE::OnEditButton ), NULL, this );
@@ -104,6 +98,7 @@ PANEL_PREF_ENV_VAR_BASE::PANEL_PREF_ENV_VAR_BASE( wxWindow* parent, wxWindowID i
 PANEL_PREF_ENV_VAR_BASE::~PANEL_PREF_ENV_VAR_BASE()
 {
 	// Disconnect Events
+	m_pathList->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( PANEL_PREF_ENV_VAR_BASE::OnPathActivated ), NULL, this );
 	m_pathList->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( PANEL_PREF_ENV_VAR_BASE::OnPathSelected ), NULL, this );
 	m_addPathButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_ENV_VAR_BASE::OnAddButton ), NULL, this );
 	m_editPathButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PANEL_PREF_ENV_VAR_BASE::OnEditButton ), NULL, this );

@@ -80,7 +80,7 @@ static LAYERCOLOR componentColors[] = {
 };
 
 static LAYERCOLOR sheetColors[] = {
-    { _( "Sheet" ),             LAYER_SHEET },
+    { _( "Sheet fill" ),        LAYER_SHEET },
     { _( "Sheet file name" ),   LAYER_SHEETFILENAME },
     { _( "Sheet name" ),        LAYER_SHEETNAME },
     { _( "Sheet label" ),       LAYER_SHEETLABEL },

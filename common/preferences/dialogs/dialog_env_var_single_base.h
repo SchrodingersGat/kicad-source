@@ -52,6 +52,7 @@ class DIALOG_ENV_VAR_SINGLE_BASE : public DIALOG_SHIM
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnSelectPath( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnOkButton( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
