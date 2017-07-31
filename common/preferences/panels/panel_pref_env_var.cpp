@@ -164,6 +164,11 @@ void PANEL_PREF_ENV_VAR::EditSelectedEntry()
     {
         auto dlg = new DIALOG_ENV_VAR_SINGLE( nullptr, envName, envPath );
 
+        if( IsEnvVarImmutable( envName ) )
+        {
+            dlg->SetEnvVarProtected();
+        }
+
         if( dlg->ShowModal() == wxID_OK )
         {
             wxString newName = dlg->GetEnvVarName();

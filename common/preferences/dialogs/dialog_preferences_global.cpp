@@ -133,4 +133,7 @@ void DIALOG_PREFERENCES_GLOBAL::AddItems( wxTreeItemId& aRoot )
             _( "Hotkeys" ),
             PREF_PCB_HOTKEYS,
             new PANEL_PREF( parent ) );
+
+
+    FinishDialogSettings();
 }

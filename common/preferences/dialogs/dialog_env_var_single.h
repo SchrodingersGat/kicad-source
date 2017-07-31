@@ -36,6 +36,8 @@ public:
     wxString GetEnvVarName() const;
     wxString GetEnvVarPath() const;
 
+    void SetEnvVarProtected();
+
 protected:
     virtual void OnSelectPath( wxCommandEvent& event ) override;
     virtual void OnOkButton( wxCommandEvent& aEvent ) override;

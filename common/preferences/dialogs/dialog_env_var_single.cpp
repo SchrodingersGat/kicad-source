@@ -54,6 +54,12 @@ wxString DIALOG_ENV_VAR_SINGLE::GetEnvVarPath() const
 }
 
 
+void DIALOG_ENV_VAR_SINGLE::SetEnvVarProtected()
+{
+    m_envVarName->Enable( false );
+}
+
+
 void DIALOG_ENV_VAR_SINGLE::OnSelectPath( wxCommandEvent& event )
 {
     wxString title = _( "Set path for ENV_VAR" );

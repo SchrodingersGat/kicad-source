@@ -39,8 +39,7 @@ DIALOG_PREFERENCES::~DIALOG_PREFERENCES()
     {
         if( panel )
         {
-            panel->Hide();
-            delete( panel );
+            panel->Destroy();
         }
     }
 
