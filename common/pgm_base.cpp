@@ -51,9 +51,11 @@
 #include <gestfich.h>
 #include <menus_helpers.h>
 #include <confirm.h>
-#include <dialog_env_var_config.h>
 #include <lockfile.h>
 #include <systemdirsappend.h>
+
+#include "preferences/dialogs/dialog_pref_single.h"
+#include "preferences/panels/panel_pref_env_var.h"
 
 
 #define KICAD_COMMON                     wxT( "kicad_common" )
@@ -908,38 +910,14 @@ void PGM_BASE::SetLocalEnvVariables( const ENV_VAR_MAP& aEnvVarMap )
 
 void PGM_BASE::ConfigurePaths( wxWindow* aParent )
 {
-    DIALOG_ENV_VAR_CONFIG dlg_envvars( aParent, GetLocalEnvVariables() );
+    DIALOG_PREF_SINGLE dlg( aParent, _( "Configure Environment Variables" ) );
 
-    if( dlg_envvars.ShowModal() == wxID_CANCEL )
-        return;
+    PANEL_PREF_ENV_VAR* env = new PANEL_PREF_ENV_VAR( &dlg, GetLocalEnvVariables() );
 
-    ENV_VAR_MAP envVarMap = dlg_envvars.GetEnvVarMap();
+    dlg.SetPanel( env );
 
-    for( ENV_VAR_MAP_ITER it = envVarMap.begin(); it != envVarMap.end(); ++it )
+    if( dlg.ShowModal() == wxID_OK )
     {
-        wxLogTrace( traceEnvVars, wxT( "Environment variable %s=%s defined externally = %d" ),
-                    GetChars( it->first ), GetChars( it->second.GetValue() ),
-                    it->second.GetDefinedExternally() );
+        dlg.TransferDataFromWindow();
     }
-
-    // If any of the environment variables are defined externally, warn the user that the
-    // next time kicad is run that the externally defined variables will be used instead of
-    // the user's settings.  This is by design.
-    if( dlg_envvars.ExternalDefsChanged() && m_show_env_var_dialog )
-    {
-        wxString msg1 = _( "Warning!  Some of paths you have configured have been defined \n"
-                           "externally to the running process and will be temporarily overwritten." );
-        wxString msg2 = _( "The next time KiCad is launched, any paths that have already\n"
-                           "been defined are honored and any settings defined in the path\n"
-                           "configuration dialog are ignored.  If you did not intend for this\n"
-                           "behavior, either rename any conflicting entries or remove the\n"
-                           "external environment variable definition(s) from your system." );
-        wxRichMessageDialog dlg( aParent, msg1, _( "Warning" ), wxOK | wxCENTRE );
-        dlg.ShowDetailedText( msg2 );
-        dlg.ShowCheckBox( _( "Do not show this message again." ) );
-        dlg.ShowModal();
-        m_show_env_var_dialog = !dlg.IsCheckBoxChecked();
-    }
-
-    SetLocalEnvVariables( dlg_envvars.GetEnvVarMap() );
 }

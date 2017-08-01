@@ -187,8 +187,6 @@ set( COMMON_DLG_SRCS
     dialogs/dialog_hotkeys_editor_base.cpp
     dialogs/dialog_list_selector_base.cpp
     dialogs/dialog_page_settings_base.cpp
-    dialogs/dialog_env_var_config_base.cpp
-    dialogs/dialog_env_var_config.cpp
     dialogs/wx_html_report_panel_base.cpp
     dialogs/wx_html_report_panel.cpp
     )
