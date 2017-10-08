@@ -311,6 +311,14 @@ void FOOTPRINT_EDIT_FRAME::ReCreateMenuBar()
 
     placeMenu->AppendSeparator();
 
+    // Keepout zone
+    AddMenuItem( placeMenu, ID_MODEDIT_KEEPOUT_TOOL,
+                _( "&Keepout" ), _( "Add keepout zone" ),
+                KiBitmap( add_keepout_area_xpm ) );
+
+
+    placeMenu->AppendSeparator();
+
     // Anchor
     AddMenuItem( placeMenu, ID_MODEDIT_ANCHOR_TOOL,
                  _( "A&nchor" ),

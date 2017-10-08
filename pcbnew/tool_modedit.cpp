@@ -186,6 +186,12 @@ void FOOTPRINT_EDIT_FRAME::ReCreateVToolbar()
                             _( "Add Text" ), wxITEM_CHECK );
 
     m_drawToolBar->AddSeparator();
+
+    m_drawToolBar->AddTool( ID_MODEDIT_KEEPOUT_TOOL, wxEmptyString, KiBitmap( add_keepout_area_xpm ),
+                            _( "Add keepout" ), wxITEM_CHECK );
+
+    m_drawToolBar->AddSeparator();
+
     m_drawToolBar->AddTool( ID_MODEDIT_ANCHOR_TOOL, wxEmptyString, KiBitmap( anchor_xpm ),
                             _( "Place footprint reference anchor" ),
                             wxITEM_CHECK );
