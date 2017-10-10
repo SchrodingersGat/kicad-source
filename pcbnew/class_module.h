@@ -36,6 +36,7 @@
 #include <dlist.h>
 #include <layers_id_colors_and_visibility.h>       // ALL_LAYERS definition.
 #include <class_board_item.h>
+#include <class_zone.h>
 #include <board_item_container.h>
 #include <lib_id.h>
 
@@ -131,11 +132,14 @@ public:
     // Virtual function
     const EDA_RECT GetBoundingBox() const override;
 
-    DLIST<D_PAD>& PadsList()                        { return m_Pads; }
+    DLIST<D_PAD>& PadsList() { return m_Pads; }
     const DLIST<D_PAD>& PadsList() const { return m_Pads; }
 
-    DLIST<BOARD_ITEM>& GraphicalItemsList()         { return m_Drawings; }
+    DLIST<BOARD_ITEM>& GraphicalItemsList() { return m_Drawings; }
     const DLIST<BOARD_ITEM>& GraphicalItemsList() const { return m_Drawings; }
+
+    DLIST<ZONE_CONTAINER>& ZonesList() { return m_Zones; }
+    const DLIST<ZONE_CONTAINER>& ZonesList() const { return m_Zones; }
 
     DLIST_ITERATOR_WRAPPER<D_PAD> Pads()
     {
@@ -678,6 +682,8 @@ private:
     int m_Attributs;                    ///< Flag bits ( see Mod_Attribut )
     int m_ModuleStatus;                 ///< For autoplace: flags (LOCKED, AUTOPLACED)
     EDA_RECT m_BoundaryBox;             ///< Bounding box : coordinates on board, real orientation.
+
+    DLIST<ZONE_CONTAINER> m_Zones;      ///< Linked list of zones
 
     // The final margin is the sum of these 2 values
     int m_ThermalWidth;

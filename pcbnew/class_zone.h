@@ -84,12 +84,14 @@ public:
      */
     typedef enum HATCH_STYLE { NO_HATCH, DIAGONAL_FULL, DIAGONAL_EDGE } HATCH_STYLE;
 
-    ZONE_CONTAINER( BOARD* parent );
+    ZONE_CONTAINER( BOARD_ITEM_CONTAINER* aParent );
 
     ZONE_CONTAINER( const ZONE_CONTAINER& aZone );
     ZONE_CONTAINER& operator=( const ZONE_CONTAINER &aOther );
 
     ~ZONE_CONTAINER();
+
+    ZONE_CONTAINER* Next() const { return static_cast<ZONE_CONTAINER*>( Pnext ); }
 
     /**
      * Function GetPosition

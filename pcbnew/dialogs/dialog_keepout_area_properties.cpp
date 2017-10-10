@@ -87,7 +87,7 @@ private:
      * creates the colored rectangle icons used in the layer selection widget.
      * @param aColor is the color to fill the rectangle with.
      */
-    wxIcon makeLayerIcon( COLOR4D aColor );
+    wxDataViewIconText makeLayerIcon( const wxString aTitle, COLOR4D aColor );
 };
 
 
@@ -154,25 +154,69 @@ void DIALOG_KEEPOUT_AREA_PROPERTIES::initDialog()
     auto* checkColumn = m_layers->AppendToggleColumn( wxEmptyString );
     auto* layerColumn = m_layers->AppendIconTextColumn( wxEmptyString );
 
+    COLOR4D layerColor;
     wxVector<wxVariant> row;
 
     int imgIdx = 0;
 
-    for( LSEQ cu_stack = show.UIOrder();  cu_stack;  ++cu_stack, imgIdx++ )
+    /*
+     * Layer considerations for zones drawn in footprint or in PCB
+     *
+     * Zones drawn in footprint cannot select individual internal layers.
+     * Layer selection is limited to:
+     * - F.Cu
+     * - B.Cu
+     * - Inner.Cu
+     *
+     * If Inner.Cu is selected, then the zone is on ALL internal layers when
+     * the footprint is placed on the PCB
+     */
+
+    if( m_zonesettings.GetIsInFootprint() )
     {
-        PCB_LAYER_ID layer = *cu_stack;
-
-        msg = board->GetLayerName( layer );
-
-        COLOR4D layerColor = m_parent->Settings().Colors().GetLayerColor( layer );
+        // Add F.Cu layer entry
+        layerColor = m_parent->Settings().Colors().GetLayerColor( F_Cu );
 
         row.clear();
-        row.push_back( m_zonesettings.m_Layers.test( layer ) );
-        auto iconItem = wxDataViewIconText( msg, makeLayerIcon( layerColor ) );
-        row.push_back( wxVariant( iconItem ) );
-
+        row.push_back( m_zonesettings.m_Layers.test( F_Cu ) );
+        row.push_back( wxVariant( makeLayerIcon( board->GetLayerName( F_Cu ), layerColor ) ) );
         m_layers->AppendItem( row );
 
+        // Add Inner.Cu layer entry
+        row.clear();
+
+        // Test if any layers are set
+        LSET internal = m_zonesettings.m_Layers & LSET::InternalCuMask();
+        row.push_back( m_zonesettings.m_Layers.test( internal.count() > 0 ) );
+        layerColor = m_parent->Settings().Colors().GetLayerColor( In1_Cu );
+        row.push_back( wxVariant( makeLayerIcon( _( "Internal layers" ), layerColor ) ) );
+        m_layers->AppendItem( row );
+
+        // Add B.Cu layer entry
+        row.clear();
+        layerColor = m_parent->Settings().Colors().GetLayerColor( B_Cu );
+        row.push_back( m_zonesettings.m_Layers.test( B_Cu ) );
+        layerColor = m_parent->Settings().Colors().GetLayerColor( B_Cu );
+        row.push_back( wxVariant( makeLayerIcon( board->GetLayerName( B_Cu ), layerColor ) ) );
+        m_layers->AppendItem( row );
+
+    }
+    else
+    {
+        for( LSEQ cu_stack = show.UIOrder();  cu_stack;  ++cu_stack, imgIdx++ )
+        {
+            PCB_LAYER_ID layer = *cu_stack;
+
+            msg = board->GetLayerName( layer );
+
+            layerColor = m_parent->Settings().Colors().GetLayerColor( layer );
+
+            row.clear();
+            row.push_back( m_zonesettings.m_Layers.test( layer ) );
+            row.push_back( wxVariant( makeLayerIcon( msg, layerColor ) ) );
+
+            m_layers->AppendItem( row );
+        }
     }
 
     // Init keepout parameters:
@@ -218,14 +262,43 @@ void DIALOG_KEEPOUT_AREA_PROPERTIES::OnLayerSelection( wxDataViewEvent& event )
     int row = m_layers->ItemToRow( item );
     bool selected = m_layers->GetToggleValue( row, 0 );
 
-    BOARD* board = m_parent->GetBoard();
-    LSEQ cu_stack = LSET::AllCuMask( board->GetCopperLayerCount() ).UIOrder();
-
-    if( row < (int)cu_stack.size() )
+    // If the zone is defined in a footprint
+    if( m_zonesettings.GetIsInFootprint() )
     {
-        m_zonesettings.m_Layers.set( cu_stack[ row ], selected );
+        switch( row )
+        {
+        case 0: // F.Cu
+            m_zonesettings.m_Layers.set( F_Cu, selected );
+            break;
+        case 1: // Inner layers
+            if( selected )
+            {
+                m_zonesettings.m_Layers |= LSET::InternalCuMask();
+            }
+            else
+            {
+                m_zonesettings.m_Layers &= ~( LSET::InternalCuMask() );
+            }
+            break;
+        case 2: // B.Cu
+            m_zonesettings.m_Layers.set( B_Cu, selected );
+            break;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        BOARD* board = m_parent->GetBoard();
+        LSEQ cu_stack = LSET::AllCuMask( board->GetCopperLayerCount() ).UIOrder();
+
+        if( row < (int)cu_stack.size() )
+        {
+            m_zonesettings.m_Layers.set( cu_stack[ row ], selected );
+        }
     }
 
+    // Disable 'OK' button if there are no copper layers selected
     m_sdbSizerButtonsOK->Enable( m_zonesettings.m_Layers.count() > 0 );
 }
 
@@ -286,7 +359,7 @@ bool DIALOG_KEEPOUT_AREA_PROPERTIES::AcceptOptionsForKeepOut()
 }
 
 
-wxIcon DIALOG_KEEPOUT_AREA_PROPERTIES::makeLayerIcon( COLOR4D aColor )
+wxDataViewIconText DIALOG_KEEPOUT_AREA_PROPERTIES::makeLayerIcon( const wxString aTitle, COLOR4D aColor )
 {
     wxBitmap    bitmap( LAYER_BITMAP_SIZE_X, LAYER_BITMAP_SIZE_Y );
     wxBrush     brush;
@@ -302,5 +375,8 @@ wxIcon DIALOG_KEEPOUT_AREA_PROPERTIES::makeLayerIcon( COLOR4D aColor )
     iconDC.SelectObject( wxNullBitmap );    // mandatory before using bitmap data
     wxIcon icon;
     icon.CopyFromBitmap( bitmap );
-    return icon;
+
+    wxDataViewIconText iconText( aTitle, icon );
+
+    return iconText;
 }

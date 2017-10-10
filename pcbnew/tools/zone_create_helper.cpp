@@ -30,6 +30,7 @@
 #include <class_pad.h>
 #include <board_commit.h>
 #include <pcb_painter.h>
+#include <pcbnew_id.h>
 
 #include <tools/pcb_actions.h>
 #include <tools/selection_tool.h>
@@ -56,15 +57,19 @@ ZONE_CREATE_HELPER::~ZONE_CREATE_HELPER()
 std::unique_ptr<ZONE_CONTAINER> ZONE_CREATE_HELPER::createNewZone( bool aKeepout )
 {
     auto& frame = *m_tool.getEditFrame<PCB_BASE_EDIT_FRAME>();
+
     auto& board = *m_tool.getModel<BOARD>();
+
+    BOARD_ITEM_CONTAINER* parent = frame.GetModel();
 
     // Get the current default settings for zones
     ZONE_SETTINGS zoneInfo = frame.GetZoneSettings();
     zoneInfo.m_CurrentZone_Layer = frame.GetScreen()->m_Active_Layer;
     zoneInfo.m_NetcodeSelection = board.GetHighLightNetCode();
     zoneInfo.SetIsKeepout( m_params.m_keepout );
+    zoneInfo.SetIsInFootprint( aKeepout && ( frame.GetToolId() == ID_MODEDIT_KEEPOUT_TOOL ) );
 
-    if ( m_params.m_mode != DRAWING_TOOL::ZONE_MODE::GRAPHIC_POLYGON  )
+    if ( m_params.m_mode != DRAWING_TOOL::ZONE_MODE::GRAPHIC_POLYGON )
     {
         // Get the current default settings for zones
 
@@ -72,13 +77,19 @@ std::unique_ptr<ZONE_CONTAINER> ZONE_CREATE_HELPER::createNewZone( bool aKeepout
         ZONE_EDIT_T dialogResult;
 
         if( m_params.m_keepout )
+        {
             dialogResult = InvokeKeepoutAreaEditor( &frame, &zoneInfo );
+        }
         else
         {
             if( IsCopperLayer( zoneInfo.m_CurrentZone_Layer ) )
+            {
                 dialogResult = InvokeCopperZonesEditor( &frame, &zoneInfo );
+            }
             else
+            {
                 dialogResult = InvokeNonCopperZonesEditor( &frame, nullptr, &zoneInfo );
+            }
         }
 
         if( dialogResult == ZONE_ABORT )
@@ -87,7 +98,8 @@ std::unique_ptr<ZONE_CONTAINER> ZONE_CREATE_HELPER::createNewZone( bool aKeepout
         }
     }
 
-    auto newZone = std::make_unique<ZONE_CONTAINER>( &board );
+    auto newZone = std::make_unique<ZONE_CONTAINER>( parent );
+
 
     // Apply the selected settings
     zoneInfo.ExportSetting( *newZone );
@@ -198,7 +210,7 @@ bool ZONE_CREATE_HELPER::OnFirstPoint()
 
         if( m_zone )
         {
-            // set up poperties from zone
+            // Set up properties from zone
             const auto& settings = *m_parentView.GetPainter()->GetSettings();
             COLOR4D color = settings.GetColor( nullptr, m_zone->GetLayer() );
 

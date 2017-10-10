@@ -43,6 +43,7 @@
 
 class BOARD;
 class BOARD_ITEM;
+class BOARD_ITEM_CONTAINER;
 class D_PAD;
 class DIMENSION;
 class DRAWSEGMENT;
@@ -130,7 +131,7 @@ class PCB_PARSER : public PCB_LEXER
     bool            parseD_PAD_option( D_PAD* aPad );
     TRACK*          parseTRACK();
     VIA*            parseVIA();
-    ZONE_CONTAINER* parseZONE_CONTAINER();
+    ZONE_CONTAINER* parseZONE_CONTAINER( BOARD_ITEM_CONTAINER* aParent );
     PCB_TARGET*     parsePCB_TARGET();
     BOARD*          parseBOARD();
 

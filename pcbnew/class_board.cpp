@@ -1,8 +1,3 @@
-/**
- * @file class_board.cpp
- * @brief  BOARD class functions.
- */
-
 /*
  * This program source code file is part of KiCad, a free EDA CAD application.
  *

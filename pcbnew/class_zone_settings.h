@@ -64,7 +64,7 @@ public:
     int  m_ZoneMinThickness;            ///< Min thickness value in filled areas
     int  m_NetcodeSelection;            ///< Net code selection for the current zone
 
-    LSET m_Layers;
+    LSET m_Layers;                      ///< Set of layers on which this zone exists
 
     PCB_LAYER_ID    m_CurrentZone_Layer;    ///< Layer used to create the current zone
 
@@ -87,7 +87,11 @@ private:
     /* A zone outline can be a keepout zone.
      * It will be never filled, and DRC should test for pads, tracks and vias
      */
-    bool                  m_isKeepout;
+    bool    m_isKeepout;
+
+    /* A zone outline can be drawn inside a footprint
+     */
+    bool    m_isInFootprint;
 
     /* For keepout zones only:
      * what is not allowed inside the keepout ( pads, tracks and vias )
@@ -134,11 +138,13 @@ public:
      * Accessors to parameters used in Keepout zones:
      */
     const bool GetIsKeepout() const { return m_isKeepout; }
+    const bool GetIsInFootprint() const { return m_isInFootprint; }
     const bool GetDoNotAllowCopperPour() const { return m_keepoutDoNotAllowCopperPour; }
     const bool GetDoNotAllowVias() const { return m_keepoutDoNotAllowVias; }
     const bool GetDoNotAllowTracks() const { return m_keepoutDoNotAllowTracks; }
 
     void SetIsKeepout( bool aEnable ) { m_isKeepout = aEnable; }
+    void SetIsInFootprint( bool aIsInFootprint ) { m_isInFootprint = aIsInFootprint; }
     void SetDoNotAllowCopperPour( bool aEnable ) { m_keepoutDoNotAllowCopperPour = aEnable; }
     void SetDoNotAllowVias( bool aEnable ) { m_keepoutDoNotAllowVias = aEnable; }
     void SetDoNotAllowTracks( bool aEnable ) { m_keepoutDoNotAllowTracks = aEnable; }

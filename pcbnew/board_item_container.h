@@ -28,6 +28,7 @@
 #define BOARD_ITEM_CONTAINER_H
 
 #include <class_board_item.h>
+#include <class_zone_settings.h>
 
 enum ADD_MODE { ADD_INSERT, ADD_APPEND };
 
@@ -70,6 +71,12 @@ public:
         Remove( aItem );
         delete aItem;
     }
+
+    const ZONE_SETTINGS& GetZoneSettings() const            { return m_zoneSettings; }
+    void SetZoneSettings( const ZONE_SETTINGS& aSettings )  { m_zoneSettings = aSettings; }
+
+protected:
+    ZONE_SETTINGS m_zoneSettings;
 };
 
 #endif /* BOARD_ITEM_CONTAINER_H */

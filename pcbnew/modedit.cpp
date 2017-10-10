@@ -977,6 +977,7 @@ void FOOTPRINT_EDIT_FRAME::OnVerticalToolbar( wxCommandEvent& aEvent )
         SetToolID( id, wxCURSOR_BULLSEYE, _( "Delete item" ) );
         break;
 
+    case ID_MODEDIT_KEEPOUT_TOOL:
     case ID_MODEDIT_MEASUREMENT_TOOL:
         DisplayError( this, wxT( "Unsupported tool in legacy canvas" ) );
         SetNoToolSelected();
