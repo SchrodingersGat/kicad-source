@@ -82,6 +82,9 @@ void BOARD_COMMIT::Push( const wxString& aMessage, bool aCreateUndoEntry )
             if( ent.m_item->Type() != PCB_MODULE_T )
                 ent.m_item = ent.m_item->GetParent();
 
+            //if( ent.m_copy->Type() != PCB_MODULE_T )
+            //    ent.m_copy = ent.m_copy->GetParent();
+
             // We have not saved the module yet, so let's create an entry
             if( savedModules.count( ent.m_item ) == 0 )
             {

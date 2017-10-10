@@ -550,6 +550,44 @@ void FOOTPRINT_EDIT_FRAME::OnEditItemRequest( wxDC* aDC, BOARD_ITEM* aItem )
         m_canvas->Refresh();
         break;
 
+    case PCB_ZONE_AREA_T:
+    {
+        ZONE_CONTAINER* zone = static_cast<ZONE_CONTAINER*>( aItem );
+
+        ZONE_SETTINGS zoneSettings;
+
+        zoneSettings << *zone;
+
+        bool success = false;
+
+        if( zone )
+        {
+            if( zone->GetIsKeepout() )
+            {
+                success = InvokeKeepoutAreaEditor( this, &zoneSettings );
+            }
+            else if( zone->IsOnCopperLayer() )
+            {
+                success = InvokeCopperZonesEditor( this, &zoneSettings );
+            }
+            else
+            {
+                success = InvokeNonCopperZonesEditor( this, zone, &zoneSettings );
+            }
+
+            if( success )
+            {
+                //BOARD_COMMIT commit( this );
+                zoneSettings.ExportSetting( *zone );
+
+                //commit.Add( zone.release() );
+                //commit.Push( _( "Edit zone" ) );
+            }
+        }
+
+        break;
+    }
+
     default:
         break;
     }

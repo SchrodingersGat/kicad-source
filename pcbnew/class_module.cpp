@@ -218,6 +218,11 @@ MODULE& MODULE::operator=( const MODULE& aOther )
         }
     }
 
+    for( ZONE_CONTAINER* zone = aOther.m_Zones; zone; zone = zone->Next() )
+    {
+        Add( new ZONE_CONTAINER( *zone ) );
+    }
+
     // Copy auxiliary data: 3D_Drawings info
     m_3D_Drawings.clear();
     m_3D_Drawings = aOther.m_3D_Drawings;
@@ -236,7 +241,9 @@ void MODULE::ClearAllNets()
     // Force the ORPHANED dummy net info for all pads.
     // ORPHANED dummy net does not depend on a board
     for( D_PAD* pad = PadsList(); pad; pad = pad->Next() )
+    {
         pad->SetNetCode( NETINFO_LIST::ORPHANED );
+    }
 }
 
 
@@ -832,7 +839,7 @@ SEARCH_RESULT MODULE::Visit( INSPECTOR inspector, void* testData, const KICAD_T 
             ++p;
             break;
 
-        case PCB_ZONE_T:
+        case PCB_ZONE_AREA_T:
             result = IterateForward( m_Zones, inspector, testData, p );
             ++p;
             break;

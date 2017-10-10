@@ -182,6 +182,7 @@ void DIALOG_KEEPOUT_AREA_PROPERTIES::initDialog()
         row.push_back( wxVariant( makeLayerIcon( board->GetLayerName( F_Cu ), layerColor ) ) );
         m_layers->AppendItem( row );
 
+        /*
         // Add Inner.Cu layer entry
         row.clear();
 
@@ -191,6 +192,8 @@ void DIALOG_KEEPOUT_AREA_PROPERTIES::initDialog()
         layerColor = m_parent->Settings().Colors().GetLayerColor( In1_Cu );
         row.push_back( wxVariant( makeLayerIcon( _( "Internal layers" ), layerColor ) ) );
         m_layers->AppendItem( row );
+
+        */
 
         // Add B.Cu layer entry
         row.clear();
@@ -270,6 +273,7 @@ void DIALOG_KEEPOUT_AREA_PROPERTIES::OnLayerSelection( wxDataViewEvent& event )
         case 0: // F.Cu
             m_zonesettings.m_Layers.set( F_Cu, selected );
             break;
+        /*
         case 1: // Inner layers
             if( selected )
             {
@@ -280,7 +284,8 @@ void DIALOG_KEEPOUT_AREA_PROPERTIES::OnLayerSelection( wxDataViewEvent& event )
                 m_zonesettings.m_Layers &= ~( LSET::InternalCuMask() );
             }
             break;
-        case 2: // B.Cu
+        */
+        case 1: // B.Cu
             m_zonesettings.m_Layers.set( B_Cu, selected );
             break;
         default:
