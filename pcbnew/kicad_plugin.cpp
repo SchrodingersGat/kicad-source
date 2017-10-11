@@ -1198,7 +1198,11 @@ void PCB_IO::formatLayers( LSET aLayerMask, int aNestLevel ) const
     LSET cu_mask = cu_all;
 
     if( m_board )
+    {
         cu_mask &= m_board->GetEnabledLayers();
+    }
+
+    LSET cu_internal = cu_mask & LSET::InternalCuMask();
 
     // output copper layers first, then non copper
 
@@ -1211,6 +1215,13 @@ void PCB_IO::formatLayers( LSET aLayerMask, int aNestLevel ) const
     {
         output += " F&B.Cu";
         aLayerMask &= ~fr_bk;
+    }
+
+    // All inner copper layers are selected
+    if( ( aLayerMask & cu_internal) == cu_internal )
+    {
+        output += " *.In.Cu";
+        aLayerMask &= ~cu_internal;
     }
 
     if( ( aLayerMask & adhes ) == adhes )
