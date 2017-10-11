@@ -1428,6 +1428,17 @@ bool SELECTION_TOOL::selectable( const BOARD_ITEM* aItem ) const
     case PCB_ZONE_AREA_T:
         // Keepout zones can exist on multiple layers!
         {
+            // In PCB editor, don't allow zone selection if parent is locked
+            if( !m_editModules )
+            {
+                MODULE* mod = static_cast<MODULE*>( static_cast<const ZONE_CONTAINER*>( aItem )->GetParent() );
+
+                if( mod && mod->IsLocked() )
+                {
+                    return false;
+                }
+            }
+
             auto* zone = static_cast<const ZONE_CONTAINER*>( aItem );
 
             if( zone && zone->GetIsKeepout() )
@@ -1501,7 +1512,9 @@ bool SELECTION_TOOL::selectable( const BOARD_ITEM* aItem ) const
         {
             MODULE* mod = static_cast<const D_PAD*>( aItem )->GetParent();
             if( mod && mod->IsLocked() )
+            {
                 return false;
+            }
         }
 
         break;
@@ -1954,10 +1967,14 @@ bool SELECTION_TOOL::SanitizeSelection()
         for( auto i : m_selection )
         {
             auto item = static_cast<BOARD_ITEM*>( i );
-            if( item->Type() == PCB_PAD_T )
-            {
-                MODULE* mod = static_cast<MODULE*>( item->GetParent() );
 
+            MODULE* mod = static_cast<MODULE*>( item->GetParent() );
+
+            bool parentSelected = mod && m_selection.Contains( mod );
+
+            switch( item->Type() )
+            {
+            case PCB_PAD_T:
                 // case 1: module (or its pads) are locked
                 if( mod && ( mod->PadsLocked() || mod->IsLocked() ) )
                 {
@@ -1968,8 +1985,23 @@ bool SELECTION_TOOL::SanitizeSelection()
                 }
 
                 // case 2: multi-item selection contains both the module and its pads - remove the pads
-                if( mod && m_selection.Contains( mod ) )
+                if( parentSelected )
+                {
                     rejected.insert( item );
+                }
+
+                break;
+
+            case PCB_ZONE_AREA_T:
+                // Don't select a zone if its parent is selected
+                if( !m_editModules && parentSelected )
+                {
+                    rejected.insert( item );
+                }
+                break;
+
+            default:
+                break;
             }
         }
     }
@@ -1977,7 +2009,9 @@ bool SELECTION_TOOL::SanitizeSelection()
     if( !rejected.empty() )
     {
         for( BOARD_ITEM* item : rejected )
+        {
             unselect( item );
+        }
 
         // Inform other potentially interested tools
         m_toolMgr->ProcessEvent( UnselectedEvent );
@@ -1986,7 +2020,9 @@ bool SELECTION_TOOL::SanitizeSelection()
     if( !added.empty() )
     {
         for( BOARD_ITEM* item : added )
+        {
             select( item );
+        }
 
         // Inform other potentially interested tools
         m_toolMgr->ProcessEvent( SelectedEvent );
