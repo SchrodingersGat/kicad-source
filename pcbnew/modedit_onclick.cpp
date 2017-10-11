@@ -558,6 +558,8 @@ void FOOTPRINT_EDIT_FRAME::OnEditItemRequest( wxDC* aDC, BOARD_ITEM* aItem )
 
         zoneSettings << *zone;
 
+        zoneSettings.SetIsInFootprint( true );
+
         bool success = false;
 
         if( zone )

@@ -636,7 +636,7 @@ wxString DRAWSEGMENT::GetSelectMenuText() const
 
 BITMAP_DEF DRAWSEGMENT::GetMenuImage() const
 {
-    return add_dashed_line_xpm;
+    return add_polygon_xpm;
 }
 
 

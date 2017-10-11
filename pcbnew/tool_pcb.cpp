@@ -456,6 +456,7 @@ void PCB_EDIT_FRAME::ReCreateVToolbar()
     m_drawToolBar->AddTool( ID_PCB_ADD_LINE_BUTT, wxEmptyString, KiBitmap( add_graphical_segments_xpm ),
                             _( "Add graphic lines" ), wxITEM_CHECK );
 
+
     m_drawToolBar->AddTool( ID_PCB_CIRCLE_BUTT, wxEmptyString, KiBitmap( add_circle_xpm ),
                             _( "Add graphic circle" ), wxITEM_CHECK );
 
