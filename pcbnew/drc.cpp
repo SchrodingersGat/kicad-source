@@ -616,31 +616,8 @@ void DRC::testZones()
 void DRC::testKeepoutAreas()
 {
     // Construct a list of areas to inspect
-    std::list<ZONE_CONTAINER*> areasToTest;
-
-    // Add board zones
-    for( int ii = 0; ii < m_pcb->GetAreaCount(); ii++ )
-    {
-        ZONE_CONTAINER* area = m_pcb->GetArea( ii );
-
-        if( area && area->GetIsKeepout() )
-        {
-            areasToTest.push_back( area );
-        }
-    }
-
-    // Add zones in footprints
-    for( auto mod : m_pcb->Modules() )
-    {
-        for( ZONE_CONTAINER* zone = mod->ZonesList(); zone; zone = zone->Next() )
-        {
-            if( zone->GetIsKeepout() )
-            {
-                areasToTest.push_back( zone );
-            }
-        }
-    }
-
+    // (include zones found in footprints)
+    auto areasToTest = m_pcb->GetZoneList( true );
 
     for( auto* area : areasToTest )
     {
@@ -818,14 +795,12 @@ void DRC::testTexts()
 
 bool DRC::doTrackKeepoutDrc( TRACK* aRefSeg )
 {
-    // Test keepout areas for vias, tracks and pads inside keepout areas
-    for( int ii = 0; ii < m_pcb->GetAreaCount(); ii++ )
+    // Construct list of areas to inspect
+    // (include areas found in footprints)
+    auto areasToTest = m_pcb->GetZoneList( true );
+
+    for( auto* area : areasToTest )
     {
-        ZONE_CONTAINER* area = m_pcb->GetArea( ii );
-
-        if( !area->GetIsKeepout() )
-            continue;
-
         if( aRefSeg->Type() == PCB_TRACE_T )
         {
             if( ! area->GetDoNotAllowTracks()  )

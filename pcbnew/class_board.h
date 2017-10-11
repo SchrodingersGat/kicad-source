@@ -958,6 +958,7 @@ public:
     void RedrawFilledAreas( EDA_DRAW_PANEL* aPanel, wxDC* aDC, GR_DRAWMODE aDrawMode,
                             PCB_LAYER_ID aLayer );
 
+
     /**
      * Function SetAreasNetCodesFromNetNames
      * Set the .m_NetCode member of all copper areas, according to the area Net Name
@@ -1001,11 +1002,19 @@ public:
         return -1;
     }
 
+
+    /**
+     * Function GetZoneList
+     * @return a std::list of pointers to all board zones (possibly including zones in footprints)
+     */
+    std::list<ZONE_CONTAINER*> GetZoneList( bool aIncludeZonesInFootprints = false );
+
+
     /**
      * Function GetAreaCount
      * @return int - The number of Areas or ZONE_CONTAINER.
      */
-    int GetAreaCount() const
+    int GetAreaCount( bool aIncludeAreasInFootprints = false ) const
     {
         return (int) m_ZoneDescriptorList.size();
     }

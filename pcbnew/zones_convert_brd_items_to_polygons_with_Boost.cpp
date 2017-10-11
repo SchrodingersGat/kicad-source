@@ -358,11 +358,14 @@ void ZONE_CONTAINER::buildFeatureHoleList( BOARD* aPcb, SHAPE_POLY_SET& aFeature
         }
     }
 
-    // Add zones outlines having an higher priority and keepout
-    for( int ii = 0; ii < GetBoard()->GetAreaCount(); ii++ )
-    {
-        ZONE_CONTAINER* zone = GetBoard()->GetArea( ii );
+    // Build a list of zones to test
 
+    // Zones drawn on the board, and in footprints
+    auto areasToTest = GetBoard()->GetZoneList( true );
+
+    // Add zones outlines having an higher priority and keepout
+    for( auto* zone : areasToTest )
+    {
         // If the zones share no common layers
         if( !CommonLayerExists( zone->GetLayerSet() ) )
             continue;
