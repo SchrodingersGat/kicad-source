@@ -2,6 +2,7 @@
  * This program source code file is part of KiCad, a free EDA CAD application.
  *
  * Copyright (C) 2017 Jean-Pierre Charras, jp.charras at wanadoo.fr
+ * Copyright (C) 2017 Oliver Walters, oliver.henry.walters at gmail.com
  * Copyright (C) 2015 SoftPLC Corporation, Dick Hollenbeck <dick@softplc.com>
  * Copyright (C) 2015 Wayne Stambaugh <stambaughw@verizon.net>
  * Copyright (C) 1992-2017 KiCad Developers, see AUTHORS.txt for contributors.
@@ -247,7 +248,7 @@ void MODULE::ClearAllNets()
 }
 
 
-void MODULE::DrawAncre( EDA_DRAW_PANEL* panel, wxDC* DC, const wxPoint& offset,
+void MODULE::DrawAnchor( EDA_DRAW_PANEL* panel, wxDC* DC, const wxPoint& offset,
                         int dim_ancre, GR_DRAWMODE draw_mode )
 {
     auto frame = (PCB_EDIT_FRAME*) panel->GetParent();
@@ -434,7 +435,7 @@ void MODULE::Draw( EDA_DRAW_PANEL* aPanel, wxDC* aDC, GR_DRAWMODE aDrawMode,
     BOARD* brd = GetBoard();
 
     // Draws footprint anchor
-    DrawAncre( aPanel, aDC, aOffset, DIM_ANCRE_MODULE, aDrawMode );
+    DrawAnchor( aPanel, aDC, aOffset, DIM_ANCRE_MODULE, aDrawMode );
 
     // Draw graphic items
     if( brd->IsElementVisible( LAYER_MOD_REFERENCES ) )
@@ -1212,7 +1213,7 @@ void MODULE::SetOrientation( double newangle )
 
     for( ZONE_CONTAINER* zone = m_Zones; zone; zone = zone->Next() )
     {
-        zone->Rotate( zone->GetCenter(), angleChange );
+    	zone->Rotate( GetPosition(), angleChange );
     }
 
     CalculateBoundingBox();

@@ -401,12 +401,12 @@ public:
             GR_DRAWMODE draw_mode );
 
     /**
-     * Function DrawAncre
+     * Function DrawAnchor
      * Draw the anchor cross (vertical)
      * Must be done after the pads, because drawing the hole will erase overwrite
      * every thing already drawn.
      */
-    void DrawAncre( EDA_DRAW_PANEL* panel, wxDC* DC,
+    void DrawAnchor( EDA_DRAW_PANEL* panel, wxDC* DC,
             const wxPoint& offset, int dim_ancre, GR_DRAWMODE draw_mode );
 
     ///> @copydoc EDA_ITEM::GetMsgPanelInfo
