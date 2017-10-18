@@ -219,6 +219,8 @@ MODULE& MODULE::operator=( const MODULE& aOther )
         }
     }
 
+    m_Zones.DeleteAll();
+
     for( ZONE_CONTAINER* zone = aOther.m_Zones; zone; zone = zone->Next() )
     {
         Add( new ZONE_CONTAINER( *zone ) );

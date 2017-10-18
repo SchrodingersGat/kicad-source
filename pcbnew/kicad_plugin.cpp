@@ -1217,8 +1217,8 @@ void PCB_IO::formatLayers( LSET aLayerMask, int aNestLevel ) const
         aLayerMask &= ~fr_bk;
     }
 
-    // All inner copper layers are selected
-    if( ( aLayerMask & cu_internal) == cu_internal )
+    // All inner copper layers are selected (when inner layers exist)
+    if( cu_internal.any() && ( aLayerMask & cu_internal) == cu_internal )
     {
         output += " *.In.Cu";
         aLayerMask &= ~cu_internal;
