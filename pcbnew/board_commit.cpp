@@ -1,7 +1,7 @@
 /*
  * This program source code file is part of KiCad, a free EDA CAD application.
  *
- * Copyright (C) 2016 CERN
+ * Copyright (C) 2017 CERN
  * @author Tomasz Wlostowski <tomasz.wlostowski@cern.ch>
  *
  * This program is free software; you can redistribute it and/or
@@ -53,6 +53,33 @@ BOARD_COMMIT::BOARD_COMMIT( PCB_BASE_FRAME* aFrame )
 
 BOARD_COMMIT::~BOARD_COMMIT()
 {
+}
+
+
+COMMIT& BOARD_COMMIT::Stage( EDA_ITEM* aItem, CHANGE_TYPE aChangeType )
+{
+    // if aItem belongs a footprint, the full footprint will be saved
+    // because undo/redo does not handle "sub items" modifications
+    if( aItem && aItem->Type() != PCB_MODULE_T && aChangeType == CHT_MODIFY)
+    {
+        EDA_ITEM* item = aItem->GetParent();
+
+        if( item && item->Type() == PCB_MODULE_T )  // means aItem belongs a footprint
+            aItem = item;
+    }
+
+    return COMMIT::Stage( aItem, aChangeType );
+}
+
+
+COMMIT& BOARD_COMMIT::Stage( std::vector<EDA_ITEM*>& container, CHANGE_TYPE aChangeType )
+{
+    return COMMIT::Stage( container, aChangeType );
+}
+
+COMMIT& BOARD_COMMIT::Stage( const PICKED_ITEMS_LIST& aItems, UNDO_REDO_T aModFlag )
+{
+    return COMMIT::Stage( aItems, aModFlag );
 }
 
 
@@ -205,6 +232,14 @@ void BOARD_COMMIT::Push( const wxString& aMessage, bool aCreateUndoEntry )
                     break;
                 }
 
+                // Don't allow zone removal if not editing module
+                case PCB_ZONE_AREA_T:
+                    if( !m_editModules )
+                    {
+                        break;
+                    }
+                    // Fall-through
+
                 // Board items
                 case PCB_LINE_T:                // a segment not on copper layers
                 case PCB_TEXT_T:                // a text on a layer
@@ -214,7 +249,6 @@ void BOARD_COMMIT::Push( const wxString& aMessage, bool aCreateUndoEntry )
                 case PCB_TARGET_T:              // a target (graphic item)
                 case PCB_MARKER_T:              // a marker used to show something
                 case PCB_ZONE_T:                // SEG_ZONE items are now deprecated
-                case PCB_ZONE_AREA_T:
                     view->Remove( boardItem );
 
                     if( !( changeFlags & CHT_DONE ) )

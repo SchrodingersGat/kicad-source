@@ -1,7 +1,7 @@
 /*
  * This program source code file is part of KiCad, a free EDA CAD application.
  *
- * Copyright (C) 2016 CERN
+ * Copyright (C) 2017 CERN
  * @author Tomasz Wlostowski <tomasz.wlostowski@cern.ch>
  *
  * This program is free software; you can redistribute it and/or
@@ -42,6 +42,10 @@ public:
 
     virtual void Push( const wxString& aMessage = wxT( "A commit" ), bool aCreateUndoEntry = true ) override;
     virtual void Revert() override;
+
+    virtual COMMIT& Stage( EDA_ITEM* aItem, CHANGE_TYPE aChangeType ) override;
+    virtual COMMIT& Stage( std::vector<EDA_ITEM*>& container, CHANGE_TYPE aChangeType ) override;
+    virtual COMMIT& Stage( const PICKED_ITEMS_LIST& aItems, UNDO_REDO_T aModFlag = UR_UNSPECIFIED ) override;
 
 private:
     TOOL_MANAGER* m_toolMgr;
