@@ -47,11 +47,11 @@ const KICAD_T GENERAL_COLLECTOR::AllBoardItems[] = {
     PCB_TARGET_T,                // in m_Drawings
     PCB_VIA_T,                   // in m_Tracks
     PCB_TRACE_T,                 // in m_Tracks
+    PCB_ZONE_AREA_T,             // in m_ZoneDescriptorList
     PCB_PAD_T,                   // in modules
     PCB_MODULE_TEXT_T,           // in modules
     PCB_MODULE_T,                // in m_Modules
     PCB_ZONE_T,                  // in m_Zones
-    PCB_ZONE_AREA_T,             // in m_ZoneDescriptorList
     EOT
 };
 
@@ -81,8 +81,8 @@ const KICAD_T GENERAL_COLLECTOR::AllButZones[] = {
     PCB_TRACE_T,
     PCB_PAD_T,
     PCB_MODULE_TEXT_T,
-    PCB_MODULE_T,
     PCB_ZONE_AREA_T,         // if it is visible on screen, it should be selectable
+    PCB_MODULE_T,
     EOT
 };
 
@@ -95,6 +95,7 @@ const KICAD_T GENERAL_COLLECTOR::Modules[] = {
 
 const KICAD_T GENERAL_COLLECTOR::PadsOrModules[] = {
     PCB_PAD_T,
+    PCB_ZONE_AREA_T,    // Zones defined within footprints should be selectable
     PCB_MODULE_T,
     EOT
 };
@@ -114,8 +115,8 @@ const KICAD_T GENERAL_COLLECTOR::ModulesAndTheirItems[] = {
     PCB_MODULE_TEXT_T,
     PCB_MODULE_EDGE_T,
     PCB_PAD_T,
-    PCB_MODULE_T,
     PCB_ZONE_AREA_T,
+    PCB_MODULE_T,
     EOT
 };
 

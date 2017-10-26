@@ -1988,16 +1988,27 @@ bool SELECTION_TOOL::SanitizeSelection()
                 if( parentSelected )
                 {
                     rejected.insert( item );
+
+                    if( !mod->IsSelected() )
+                    {
+                        added.insert( mod );
+                    }
                 }
 
                 break;
 
             case PCB_ZONE_AREA_T:
                 // Don't select a zone if its parent is selected
-                if( !m_editModules && parentSelected )
+                if( mod && ( mod->IsLocked() ) )
                 {
                     rejected.insert( item );
                 }
+
+                if( parentSelected )
+                {
+                    rejected.insert( item );
+                }
+
                 break;
 
             default:

@@ -1174,7 +1174,23 @@ SEARCH_RESULT BOARD::Visit( INSPECTOR inspector, void* testData, const KICAD_T s
 
                 break;
             }
+            break;
 
+        case PCB_ZONE_AREA_T:
+
+            // Zones can also live inside footprints (modules)
+            result = IterateForward( m_Modules, inspector, testData, p );
+
+            // PCB_ZONE_AREA_T are in the m_ZoneDescriptorList std::vector
+            for( unsigned i = 0; i< m_ZoneDescriptorList.size(); ++i )
+            {
+                result = m_ZoneDescriptorList[i]->Visit( inspector, testData, p );
+
+                if( result == SEARCH_QUIT )
+                    break;
+            }
+
+            ++p;
             break;
 
         case PCB_LINE_T:
@@ -1261,20 +1277,6 @@ SEARCH_RESULT BOARD::Visit( INSPECTOR inspector, void* testData, const KICAD_T s
             for( unsigned i = 0; i<m_markers.size(); ++i )
             {
                 result = m_markers[i]->Visit( inspector, testData, p );
-
-                if( result == SEARCH_QUIT )
-                    break;
-            }
-
-            ++p;
-            break;
-
-        case PCB_ZONE_AREA_T:
-
-            // PCB_ZONE_AREA_T are in the m_ZoneDescriptorList std::vector
-            for( unsigned i = 0; i< m_ZoneDescriptorList.size(); ++i )
-            {
-                result = m_ZoneDescriptorList[i]->Visit( inspector, testData, p );
 
                 if( result == SEARCH_QUIT )
                     break;
