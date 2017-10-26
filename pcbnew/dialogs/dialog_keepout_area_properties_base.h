@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Aug  4 2017)
+// C++ code generated with wxFormBuilder (version Mar 22 2017)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -45,6 +45,7 @@ class DIALOG_KEEPOUT_AREA_PROPERTIES_BASE : public DIALOG_SHIM
 		
 	
 	protected:
+		wxBoxSizer* m_layersListSizer;
 		wxStaticText* m_staticTextLayerSelection;
 		wxDataViewListCtrl* m_layers;
 		wxStaticText* m_staticTextprops;

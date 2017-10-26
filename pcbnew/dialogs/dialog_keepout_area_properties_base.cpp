@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Aug  4 2017)
+// C++ code generated with wxFormBuilder (version Mar 22 2017)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -23,7 +23,6 @@ DIALOG_KEEPOUT_AREA_PROPERTIES_BASE::DIALOG_KEEPOUT_AREA_PROPERTIES_BASE( wxWind
 	wxBoxSizer* m_UpperSizer;
 	m_UpperSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	wxBoxSizer* m_layersListSizer;
 	m_layersListSizer = new wxBoxSizer( wxVERTICAL );
 	
 	m_staticTextLayerSelection = new wxStaticText( this, wxID_ANY, _("Keepout Area Layers:"), wxDefaultPosition, wxDefaultSize, 0 );

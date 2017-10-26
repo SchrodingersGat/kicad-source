@@ -120,6 +120,12 @@ DIALOG_KEEPOUT_AREA_PROPERTIES::DIALOG_KEEPOUT_AREA_PROPERTIES( PCB_BASE_FRAME* 
     initDialog();
     m_sdbSizerButtonsOK->SetDefault();
 
+    if( aSettings->GetIsInFootprint() )
+    {
+        m_layersListSizer->Show( false );
+        m_sdbSizerButtonsOK->Enable( true );
+    }
+
     FinishDialogSettings();
 }
 
@@ -174,6 +180,14 @@ void DIALOG_KEEPOUT_AREA_PROPERTIES::initDialog()
 
     if( m_zonesettings.GetIsInFootprint() )
     {
+        /* TODO
+         * Currently, if a zone is defined inside a footprint,
+         * it exists on ALL copper layers.
+         * If this (in future) ever changes, this code can be re-implemented.
+         *
+         * Oliver Walters - Oct 2017
+         *
+
         // Add F.Cu layer entry
         layerColor = m_parent->Settings().Colors().GetLayerColor( F_Cu );
 
@@ -198,7 +212,7 @@ void DIALOG_KEEPOUT_AREA_PROPERTIES::initDialog()
         layerColor = m_parent->Settings().Colors().GetLayerColor( B_Cu );
         row.push_back( wxVariant( makeLayerIcon( _( "Back copper layer" ), layerColor ) ) );
         m_layers->AppendItem( row );
-
+        */
     }
     else
     {
@@ -264,6 +278,7 @@ void DIALOG_KEEPOUT_AREA_PROPERTIES::OnLayerSelection( wxDataViewEvent& event )
     // If the zone is defined in a footprint
     if( m_zonesettings.GetIsInFootprint() )
     {
+        /*
         switch( row )
         {
         case 0: // F.Cu
@@ -285,6 +300,7 @@ void DIALOG_KEEPOUT_AREA_PROPERTIES::OnLayerSelection( wxDataViewEvent& event )
         default:
             break;
         }
+        */
     }
     else
     {
@@ -318,6 +334,12 @@ bool DIALOG_KEEPOUT_AREA_PROPERTIES::AcceptOptionsForKeepOut()
         DisplayError( NULL,
                       _("Tracks, vias, and pads are allowed. The keepout is useless" ) );
         return false;
+    }
+
+    if( m_zonesettings.GetIsInFootprint() )
+    {
+        // If defined in a footprint, keepout zones are defined on ALL copper layers
+        m_zonesettings.m_Layers = LSET::AllCuMask();
     }
 
     if( m_zonesettings.m_Layers.count() == 0 )
